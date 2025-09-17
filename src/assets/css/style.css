@@ -1,6 +1,9 @@
 body{
     position: relative;
 }
+a{
+    text-decoration: none;
+}
 .loginsection{
     /* width: 100vw; */
     height: 100vh;
@@ -44,4 +47,89 @@ body{
     position: relative;
 
     overflow: hidden;
+}
+
+/* Start Navbar */
+.sidebars{
+    min-height: 100vh;
+    background-color: #000;
+}
+.nav-item.nav-categories{
+    color: #fff;
+    margin: 10px 0;
+}
+.sidebarlinks, .sidebarlinks .fas{
+    color: #fff;
+    opacity: 0.9;
+
+    transition: all 0.3s;
+}
+.sidebarlinks:hover, .sidebarlinks .fas:hover{
+    color: #fff;
+    opacity: 1;
+    background-color: #666;
+}
+.sidebarlinks{
+    position: relative;
+}
+.mores{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.currents{
+    background-color: #333;
+    box-shadow: 1px 0 5px #222;
+}
+/* End Navbar */
+
+
+/* Start Top Sidebar */
+
+/* start notify & userlogout */
+.dropdowns{
+    position: relative;
+}
+.dropbtn{
+    text-decoration: none;
+}
+.dropdown-contents{
+    min-width: 230px;
+    background-color: #f6f6f6;
+
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: 100;
+
+    display: none;
+}
+.dropdown-contents a{
+    color: #000;
+    text-decoration: none;
+    padding: 10px;
+
+    display: block;
+}
+.dropdown-contents a:hover{
+    background-color: #ddd;
+}
+.show{
+    display: block;
+}
+/* end notify & userlogout */
+/* End Top Sidebar */
+.topnavbars{
+    z-index: 100;
+}
+.sidebars{
+    z-index: 0;
+}
+@media (max-width: 768px) { /* md and down */
+  .position-md-relatives {
+    position: relative !important;
+    overflow: visible !important;
+  }
 }
