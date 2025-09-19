@@ -11,7 +11,7 @@ import './libs/fontawesome.js'
 import './assets/css/style.css';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <App />
-  </StrictMode>,
+  // </StrictMode>,
 )
