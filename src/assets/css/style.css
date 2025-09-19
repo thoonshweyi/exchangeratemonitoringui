@@ -133,3 +133,63 @@ a{
     overflow: visible !important;
   }
 }
+
+
+/* Start Create Exchange Docu */
+ .main-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    /* margin: 2rem auto; */
+    /* max-width: 1200px; */
+}
+
+.header-section {
+    /* background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); */
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 20px 20px 0 0;
+    padding: 2rem;
+}
+.rate-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.rate-card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.rate-card-header {
+    /* background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); */
+    background: #FF0066;
+    color: white;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.currency-info {
+    display: flex;
+    align-items: center;
+}
+
+.currency-icon{
+    font-size: 1.25rem;
+    margin-right: 10px;
+}
+
+.currency-name {
+    font-weight: 600;
+    font-size: 1rem;
+}
+        
+/* End Create Exchange Docu */
