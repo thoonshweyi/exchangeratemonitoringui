@@ -7,6 +7,8 @@ import FirstPage from "./pages/dashboard/FirstPage.jsx"
 import Navbar from "./components/admin/Navbar.jsx"
 
 import AddExchangeDocu from "./pages/exchangedocus/AddExchangeDocu.jsx"
+import ExchangeDocusList from './pages/exchangedocus/ExchangeDocusList.jsx';
+import EditExchangeDocu from './pages/exchangedocus/EditExchangeDocu.jsx';
 
 function App() {
   // Layout with Navbar
@@ -17,10 +19,10 @@ function MainLayout() {
       {/* Start Content Area */}
           <section>
                <div className="container-fluid">
-                    <div class="row">
-                         <div class="col-lg-10 col-md-9 ms-auto pt-md-5 mt-mt-3">
+                    <div className="row">
+                         <div className="col-lg-10 col-md-9 ms-auto pt-md-5 mt-mt-3">
                          {/* Start Inner Content Area */}
-                         <div class="row">
+                         <div className="row">
                             <Outlet /> {/* renders child route */}
                          </div>
                          {/* End Inner Content Area */}
@@ -44,7 +46,11 @@ function MainLayout() {
 
                 <Route element={<MainLayout/>}>
                   <Route path="/dashboardsone" element={<FirstPage/>} />
+                  
                   <Route path="/exchangedocus/create" element={<AddExchangeDocu/>} />
+                  <Route path="/exchangedocus" element={<ExchangeDocusList/>} />
+                  <Route path="/exchangedocus/:id/edit" element={<EditExchangeDocu/>} />
+
                 </Route>
             </Routes>
           </Router>

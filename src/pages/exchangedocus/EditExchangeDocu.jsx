@@ -4,10 +4,11 @@ import {useParams,useNavigate} from "react-router"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
-import APP_CONFIG from './../../config/AppConfig.js';
+import APP_CONFIG from '../../config/AppConfig.js';
 import axios from "axios"
 
-function AddExchangeDocu(){
+function EditExchangeDocu(){
+    const{id} = useParams();
     const navigate = useNavigate();
     const [ currencies ,setCurrencies] = useState(null); 
     const [loading,setLoading] = useState(true);
@@ -18,38 +19,50 @@ function AddExchangeDocu(){
     );
     // console.log(recordDate);
 
-    useEffect(()=>{
-        axios.get(`${APP_CONFIG.backendURL}/api/currencies`)
-        .then(res=>{
-            console.log(res.data);
+    useEffect(() => {
+        if (!id) return; // only run in edit mode
 
-            const fetchedcurrencies = res.data.data;
-            setCurrencies(res.data.data);
+        axios.get(`${APP_CONFIG.backendURL}/api/exchangedocus/${id}`)
+        .then(res => {
+            const docu = res.data;
+            console.log(docu);
+            setCurrencies(docu.exchangerates.map(r => ({
+                id: r.currency_id,
+                code: r.currency_code,
+                name: r.currency_name
+            })));
 
-            // initialize formState
+            // map exchangerates into formState
             const initialState = {};
-            fetchedcurrencies.forEach(c => {
-                initialState[c.id] = {
-                    tt: { buy: "", sell: "" },
-                    cash: { buy: "", sell: "" },
-                    earn: { buy: "", sell: "" }
+            docu.exchangerates.forEach(rate => {
+                initialState[rate.currency_id] = {
+                tt: {
+                    buy: rate.tt_buy || "",
+                    sell: rate.tt_sell || ""
+                },
+                cash: {
+                    buy: rate.cash_buy || "",
+                    sell: rate.cash_sell || ""
+                },
+                earn: {
+                    buy: rate.earn_buy || "",
+                    sell: rate.earn_sell || ""
+                }
                 };
             });
             setFormState(initialState);
 
-            setLoading(false);
-        }).catch(err=>{
-            console.error(`Error fetching product: ${err}`);
-            setLoading(false);
-        })
-    },[]);
+            setRecordDate(docu.date);
+            // setRemark(docu.remark);
 
-    // const changeHandler = (e)=>{
-    //     const {name,value} = e.target;
-    //     setFormState(prev=>{
-    //         return {...prev,[name]:value}
-    //     });
-    // }
+            setLoading(false);
+            })
+        .catch(err => {
+            console.error(`Error fetching exchange docu: ${err}`);
+            setLoading(false);
+        });
+    }, [id]);
+
 
 
     const changeHandler = (e, currencyId, type, side) => {
@@ -106,17 +119,17 @@ function AddExchangeDocu(){
         };
         console.log(data);
 
-        try{
-            const res = await axios.post(`${APP_CONFIG.backendURL}/api/exchangedocus`,data);
-            console.log(res.data);
+        // try{
+        //     const res = await axios.post(`${APP_CONFIG.backendURL}/api/exchangedocus`,data);
+        //     console.log(res.data);
 
-            setformErrors({});
-		    setFormState({})
-            navigate(`/exchangedocus`);
+        //     setformErrors({});
+		//     setFormState({})
+        //     navigate(`/exchangedocus`);
 
-        }catch(err){
-            console.log('Add Exchange Rate failed',err);
-        }
+        // }catch(err){
+        //     console.log('Add Exchange Rate failed',err);
+        // }
 
         console.log("Form Submitted")
     }
@@ -144,7 +157,7 @@ function AddExchangeDocu(){
                             <div className="header-section">
                                 <div className="row align-items-center">
                                     <div className="col-md-8">
-                                        <h1 className="mb-2"><FontAwesomeIcon icon="fa-solid fa-hand-holding-dollar" />Daily Exchange Rates Entry</h1>
+                                        <h1 className="mb-2"><FontAwesomeIcon icon="fa-solid fa-hand-holding-dollar" />Daily Exchange Rates Edit</h1>
                                         <p className="mb-0 opacity-90">Record TT, Cash, and Earn rates for all currencies</p>
                                     </div>
                                     <div className="col-md-4 text-md-end">
@@ -313,7 +326,7 @@ function AddExchangeDocu(){
                                     </div>
 
                                     <div className="d-grid mb-3">
-                                        <button type="submit" className="btn btn-primary btn-sm rounded-0">Submit</button>
+                                        <button type="submit" className="btn btn-primary btn-sm rounded-0">Update</button>
                                     </div>
                             </div>
                         </form>
@@ -328,7 +341,7 @@ function AddExchangeDocu(){
     )
 }
 
-export default AddExchangeDocu;
+export default EditExchangeDocu;
 
 
 // changeHandler(e, currency.id, "tt", "buy")
