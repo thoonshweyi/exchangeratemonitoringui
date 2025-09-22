@@ -42,9 +42,14 @@ function ExchangeDocusList(){
 
     return (
         <>
+            <h4>Daily Exchange Documents</h4>
             <div className="container-fluid">
                 <div className="col-md-12">
                     <div className="col-md-12 loader-container">
+
+                        <Link to="/exchangedocus/create" class="btn btn-primary mb-4 me-2">Create</Link>
+                        <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={'fas fa-arrow-left'} />Back</button>
+                        <hr/>
 
                         <div className="table-container">
                                 <table id="mytable"  className="table table-md table-hover border">
@@ -66,7 +71,7 @@ function ExchangeDocusList(){
                                                     <Link to={`/exchangedocus/${exchangedocu.id}/edit`} className="text-info edit-btns" data-id="${data.id}" ><FontAwesomeIcon icon="fas fa-pen" /></Link>
                                                 </td>
                                                 <td>{exchangedocu.date}</td>
-                                                <td>{exchangedocu.user_id}</td>
+                                                <td>{exchangedocu.user.name}</td>
                                                 {/* <td>${data.created_at}</td>
                                                 <td>${data.updated_at}</td> */}
                                                 

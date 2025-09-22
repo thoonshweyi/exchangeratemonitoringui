@@ -20,43 +20,33 @@ function EditExchangeDocu(){
     // console.log(recordDate);
 
     useEffect(() => {
-        if (!id) return; // only run in edit mode
+        if (!id) return;
 
         axios.get(`${APP_CONFIG.backendURL}/api/exchangedocus/${id}`)
-        .then(res => {
+            .then(res => {
             const docu = res.data;
             console.log(docu);
-            setCurrencies(docu.exchangerates.map(r => ({
-                id: r.currency_id,
-                code: r.currency_code,
-                name: r.currency_name
-            })));
 
-            // map exchangerates into formState
-            const initialState = {};
-            docu.exchangerates.forEach(rate => {
-                initialState[rate.currency_id] = {
-                tt: {
-                    buy: rate.tt_buy || "",
-                    sell: rate.tt_sell || ""
-                },
-                cash: {
-                    buy: rate.cash_buy || "",
-                    sell: rate.cash_sell || ""
-                },
-                earn: {
-                    buy: rate.earn_buy || "",
-                    sell: rate.earn_sell || ""
-                }
-                };
-            });
+            setCurrencies(docu.exchangerates.map(r => ({ ...r.currency })));
+
+            // map exchangerates into array of objects
+            const initialState = docu.exchangerates.map(rate => ({
+                id: rate.id, // exchangerate.id
+                currency_id: rate.currency_id,
+                tt_buy: rate.tt_buy || "",
+                tt_sell: rate.tt_sell || "",
+                cash_buy: rate.cash_buy || "",
+                cash_sell: rate.cash_sell || "",
+                earn_buy: rate.earn_buy || "",
+                earn_sell: rate.earn_sell || "",
+                currency: rate.currency,
+            }));
+
             setFormState(initialState);
 
             setRecordDate(docu.date);
-            // setRemark(docu.remark);
-
             setLoading(false);
-            })
+        })
         .catch(err => {
             console.error(`Error fetching exchange docu: ${err}`);
             setLoading(false);
@@ -65,37 +55,61 @@ function EditExchangeDocu(){
 
 
 
-    const changeHandler = (e, currencyId, type, side) => {
-        const { value } = e.target;
-
-        setFormState(prev => ({
-        ...prev,
-        [currencyId]: {
-            ...prev[currencyId],
-            [type]: {
-                ...prev[currencyId]?.[type],
-                [side]: value
-            }
-        }
-        }));
+    const changeHandler = (e, index, field) => {
+        const value = e.target.value;
+        setFormState(prev => {
+            const updated = [...prev];
+            updated[index] = { ...updated[index], [field]: value };
+            return updated;
+        });
     };
+
+    // const validate = () => {
+    //     const formErrors = {};
+
+    //     Object.entries(formState).forEach(([currencyId, currencyObj]) => {
+    //         Object.entries(currencyObj).forEach(([type, typeObj]) => {
+    //             Object.entries(typeObj).forEach(([side, value]) => {
+    //                 const fieldErrors = {};
+    //                 if (!value || value.toString().trim() === "") {
+    //                     fieldErrors.required = "This field is required.";
+    //                 }
+    //                 if (Object.keys(fieldErrors).length > 0) {
+    //                     const fieldKey = `${currencyId}_${type}_${side}`;
+    //                     formErrors[fieldKey] = fieldErrors;
+    //                 }
+    //             });
+    //         });
+    //     });
+
+    //     console.log("Validation Errors:", formErrors);
+    //     // console.log("Validation Errors Length: ", Object.values(formErrors).length);
+
+    //     setformErrors(formErrors);
+    //     return Object.keys(formErrors).length === 0;
+    // };
+
+    const types = ['tt','cash','earn'];
+    const sides = ['buy','sell'];
 
     const validate = () => {
         const formErrors = {};
 
-        Object.entries(formState).forEach(([currencyId, currencyObj]) => {
-            Object.entries(currencyObj).forEach(([type, typeObj]) => {
-                Object.entries(typeObj).forEach(([side, value]) => {
+     
+        formState.forEach((rate, index) => {
+            types.forEach((type)=>{
+                sides.forEach((side)=>{
                     const fieldErrors = {};
+                    let value = rate[`${type}_${side}`];
                     if (!value || value.toString().trim() === "") {
                         fieldErrors.required = "This field is required.";
                     }
                     if (Object.keys(fieldErrors).length > 0) {
-                        const fieldKey = `${currencyId}_${type}_${side}`;
+                        const fieldKey = `${rate.id}_${type}_${side}`;
                         formErrors[fieldKey] = fieldErrors;
                     }
-                });
-            });
+                })
+            })
         });
 
         console.log("Validation Errors:", formErrors);
@@ -103,7 +117,9 @@ function EditExchangeDocu(){
 
         setformErrors(formErrors);
         return Object.keys(formErrors).length === 0;
-    };
+    }
+
+
     
     const submitHandler = async (e)=>{
         e.preventDefault();
@@ -119,17 +135,17 @@ function EditExchangeDocu(){
         };
         console.log(data);
 
-        // try{
-        //     const res = await axios.post(`${APP_CONFIG.backendURL}/api/exchangedocus`,data);
-        //     console.log(res.data);
+        try{
+            const res = await axios.put(`${APP_CONFIG.backendURL}/api/exchangedocus/${id}`,data);
+            console.log(res.data);
 
-        //     setformErrors({});
-		//     setFormState({})
-        //     navigate(`/exchangedocus`);
+            setformErrors({});
+		    setFormState({})
+            navigate(`/exchangedocus`);
 
-        // }catch(err){
-        //     console.log('Add Exchange Rate failed',err);
-        // }
+        }catch(err){
+            console.log('Add Exchange Rate failed',err);
+        }
 
         console.log("Form Submitted")
     }
@@ -176,13 +192,13 @@ function EditExchangeDocu(){
 
                                     <div id="rate-container">
                                         {
-                                            currencies.map((currency,idx)=>(
-                                                <div key={currency.id} className="rate-card">
+                                            formState.map((rate, index) => (
+                                                <div key={rate.currency.id} className="rate-card">
                                                     <div className="rate-card-header">
                                                         <div className="currency-info">
                                                             <span className="currency-icon">$</span>
                                                             <div>
-                                                                <div className="currency-name">{currency.code} - {currency.name}</div>
+                                                                <div className="currency-name">{rate.currency.code} - {rate.currency.name}</div>
                                                                 {/* <div className="rate-time">${rate.time}</div> */}
                                                             </div>
                                                         </div>
@@ -197,16 +213,14 @@ function EditExchangeDocu(){
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Buy</label>
                                                                         <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            // name={`exchangerates[${currency.id}][tt][buy]`} 
+                                                                            // name={`exchangerates[${rate.id}][tt][buy]`} 
                                                                             placeholder="0.0000"
-                                                                            value={formState[currency.id]?.tt?.buy || ""} 
-                                                                            onChange={(e) =>
-                                                                                changeHandler(e, currency.id, "tt", "buy")
-                                                                            } 
+                                                                            value={rate.tt_buy}
+                                                                            onChange={e => changeHandler(e, index, "tt_buy")}
                                                                             />
-                                                                            {formErrors[`${currency.id}_tt_buy`] && (
+                                                                            {formErrors[`${rate.id}_tt_buy`] && (
                                                                                 <div className="text-danger small mb-1">
-                                                                                    {Object.values(formErrors[`${currency.id}_tt_buy`]).map((msg, index) => (
+                                                                                    {Object.values(formErrors[`${rate.id}_tt_buy`]).map((msg, index) => (
                                                                                         <div key={index}>{msg}</div>
                                                                                     ))}
                                                                                 </div>
@@ -217,16 +231,14 @@ function EditExchangeDocu(){
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Sell</label>
                                                                         <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            // name={`exchangerates[${currency.id}][tt][sell]`} 
+                                                                            // name={`exchangerates[${rate.id}][tt][sell]`} 
                                                                             placeholder="0.0000"
-                                                                            value={formState[currency.id]?.tt?.sell || ""} 
-                                                                            onChange={(e) =>
-                                                                                changeHandler(e, currency.id, "tt", "sell")
-                                                                            } 
+                                                                            value={rate.tt_sell}
+                                                                            onChange={e => changeHandler(e, index, "tt_sell")}
                                                                             />
-                                                                            {formErrors[`${currency.id}_tt_sell`] && (
+                                                                            {formErrors[`${rate.id}_tt_sell`] && (
                                                                                     <div className="text-danger small mb-1">
-                                                                                        {Object.values(formErrors[`${currency.id}_tt_sell`]).map((msg, index) => (
+                                                                                        {Object.values(formErrors[`${rate.id}_tt_sell`]).map((msg, index) => (
                                                                                             <div key={index}>{msg}</div>
                                                                                         ))}
                                                                                     </div>
@@ -243,15 +255,13 @@ function EditExchangeDocu(){
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Buy</label>
                                                                         <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`cash_buy_${currency.id}`} placeholder="0.0000" 
-                                                                            value={formState[currency.id]?.cash?.buy || ""} 
-                                                                            onChange={(e) =>
-                                                                                changeHandler(e, currency.id, "cash", "buy")
-                                                                            } 
+                                                                            name={`cash_buy_${rate.id}`} placeholder="0.0000" 
+                                                                            value={rate.cash_buy}
+                                                                            onChange={e => changeHandler(e, index, "cash_buy")}
                                                                             />
-                                                                            {formErrors[`${currency.id}_cash_buy`] && (
+                                                                            {formErrors[`${rate.id}_cash_buy`] && (
                                                                                     <div className="text-danger small mb-1">
-                                                                                        {Object.values(formErrors[`${currency.id}_cash_buy`]).map((msg, index) => (
+                                                                                        {Object.values(formErrors[`${rate.id}_cash_buy`]).map((msg, index) => (
                                                                                             <div key={index}>{msg}</div>
                                                                                         ))}
                                                                                     </div>
@@ -260,15 +270,13 @@ function EditExchangeDocu(){
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Sell</label>
                                                                         <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`cash_sell_${currency.id}`} placeholder="0.0000"
-                                                                            value={formState[currency.id]?.cash?.sell || ""} 
-                                                                            onChange={(e) =>
-                                                                                changeHandler(e, currency.id, "cash", "sell")
-                                                                            } 
+                                                                            name={`cash_sell_${rate.id}`} placeholder="0.0000"
+                                                                            value={rate.cash_sell}
+                                                                            onChange={e => changeHandler(e, index, "cash_sell")}
                                                                             />
-                                                                        {formErrors[`${currency.id}_cash_sell`] && (
+                                                                        {formErrors[`${rate.id}_cash_sell`] && (
                                                                                     <div className="text-danger small mb-1">
-                                                                                        {Object.values(formErrors[`${currency.id}_cash_sell`]).map((msg, index) => (
+                                                                                        {Object.values(formErrors[`${rate.id}_cash_sell`]).map((msg, index) => (
                                                                                             <div key={index}>{msg}</div>
                                                                                         ))}
                                                                                     </div>
@@ -284,15 +292,13 @@ function EditExchangeDocu(){
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Buy</label>
                                                                         <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`earn_buy_${currency.id}`} placeholder="0.0000"
-                                                                            value={formState[currency.id]?.earn?.buy || ""} 
-                                                                            onChange={(e) =>
-                                                                                changeHandler(e, currency.id, "earn", "buy")
-                                                                            } 
+                                                                            name={`earn_buy_${rate.id}`} placeholder="0.0000"
+                                                                            value={rate.earn_buy}
+                                                                            onChange={e => changeHandler(e, index, "earn_buy")}
                                                                             />
-                                                                            {formErrors[`${currency.id}_earn_buy`] && (
+                                                                            {formErrors[`${rate.id}_earn_buy`] && (
                                                                                         <div className="text-danger small mb-1">
-                                                                                            {Object.values(formErrors[`${currency.id}_earn_buy`]).map((msg, index) => (
+                                                                                            {Object.values(formErrors[`${rate.id}_earn_buy`]).map((msg, index) => (
                                                                                                 <div key={index}>{msg}</div>
                                                                                             ))}
                                                                                         </div>
@@ -301,16 +307,14 @@ function EditExchangeDocu(){
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Sell</label>
                                                                         <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`earn_sell_${currency.id}`} placeholder="0.0000" 
-                                                                            value={formState[currency.id]?.earn?.sell || ""} 
-                                                                            onChange={(e) =>
-                                                                                changeHandler(e, currency.id, "earn", "sell")
-                                                                            } 
+                                                                            name={`earn_sell_${rate.id}`} placeholder="0.0000" 
+                                                                            value={rate.earn_sell} 
+                                                                            onChange={e => changeHandler(e, index, "earn_sell")}
                                                                             />
 
-                                                                        {formErrors[`${currency.id}_earn_sell`] && (
+                                                                        {formErrors[`${rate.id}_earn_sell`] && (
                                                                                         <div className="text-danger small mb-1">
-                                                                                            {Object.values(formErrors[`${currency.id}_earn_sell`]).map((msg, index) => (
+                                                                                            {Object.values(formErrors[`${rate.id}_earn_sell`]).map((msg, index) => (
                                                                                                 <div key={index}>{msg}</div>
                                                                                             ))}
                                                                                         </div>
