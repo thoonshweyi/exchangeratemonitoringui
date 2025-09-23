@@ -9,6 +9,7 @@ import Navbar from "./components/admin/Navbar.jsx"
 import AddExchangeDocu from "./pages/exchangedocus/AddExchangeDocu.jsx"
 import ExchangeDocusList from './pages/exchangedocus/ExchangeDocusList.jsx';
 import EditExchangeDocu from './pages/exchangedocus/EditExchangeDocu.jsx';
+import Detail from './pages/exchangerates/Detail.jsx';
 
 function App() {
   // Layout with Navbar
@@ -42,15 +43,17 @@ function MainLayout() {
           <Router>
             <Routes>
 
-                <Route path="/" element={<LoginPage />} />
+                {/* <Route path="/" element={<LoginPage />} /> */}
 
                 <Route element={<MainLayout/>}>
+                  <Route path="/" element={<FirstPage />} />
                   <Route path="/dashboardsone" element={<FirstPage/>} />
                   
                   <Route path="/exchangedocus/create" element={<AddExchangeDocu/>} />
                   <Route path="/exchangedocus" element={<ExchangeDocusList/>} />
                   <Route path="/exchangedocus/:id/edit" element={<EditExchangeDocu/>} />
 
+                  <Route path="/exchangerates/:id" element={< Detail/>} />
                 </Route>
             </Routes>
           </Router>

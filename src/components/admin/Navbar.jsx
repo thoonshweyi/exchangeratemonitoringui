@@ -8,7 +8,7 @@ function Navbar(){
         {/* Start Left Navbar */}
         <div className="wrappers">
             <nav className="navbar navbar-expand-md navbar-light">
-                <button type="button" className="navbar-toggler ms-auto mb-2" data-bs-toggle="collapse" data-bs-target="#nav">
+                <button type="button" className="navbar-toggler bg-white ms-auto mb-2" data-bs-toggle="collapse" data-bs-target="#nav">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div id="nav" className="navbar-collapse collapse">
@@ -148,8 +148,8 @@ function Navbar(){
                                     <li className="nav-item"><Link href="javascript:void(0);" className="nav-link text-white p-3 mb-2 sidebarlinks"><FontAwesomeIcon icon="fas fa-tachometer-alt fa-lg me-3"/> Dashboard</Link></li>
                                     <li className="nav-item"><Link href="javascript:void(0);" className="nav-link text-white p-3 mb-2 sidebarlinks currents" data-bs-toggle="collapse" data-bs-target="#pagelayout"><FontAwesomeIcon icon="fas fa-sack-dollar fa-lg me-3" /> Exchange Rate <FontAwesomeIcon icon="fas fa-angle-left" className="mores"/></Link>
                                         <ul id="pagelayout" className="collapse ps-2">
-                                            <li><Link href="javascript:void(0);" className="nav-link text-white sidebarlinks"><FontAwesomeIcon icon="fas fa-long-arrow-alt-right" className="me-4"/> Entry Exchange Rate </Link></li>
-                                            <li><Link href="javascript:void(0);" className="nav-link text-white sidebarlinks"><FontAwesomeIcon icon="fas fa-long-arrow-alt-right" className="me-4"/> Exchange Rate List</Link></li>
+                                            <li><Link to="/exchangedocus/create" className="nav-link text-white sidebarlinks"><FontAwesomeIcon icon="fas fa-long-arrow-alt-right" className="me-4"/> Entry Exchange Rate </Link></li>
+                                            <li><Link to="/exchangedocus/" className="nav-link text-white sidebarlinks"><FontAwesomeIcon icon="fas fa-long-arrow-alt-right" className="me-4"/> Exchange Rate List</Link></li>
                                             
                                         </ul>
                                     </li>

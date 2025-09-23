@@ -1,5 +1,8 @@
 body{
     position: relative;
+    /* background: linear-gradient(180deg, var(--board-panel), #070a0b); */
+       background: #222;
+    color: white;
 }
 a{
     text-decoration: none;
@@ -415,3 +418,83 @@ a{
       .board-header, .today-bar, .table-wrap, .footer { background: #000 !important; }
     }
 /* End Dashboard Page */
+
+
+/* Start Today Dashboard */
+.currencyex-card {
+    background-color: #1c1c1c;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 1rem;
+    border: 1px solid #333;
+}
+.currencyex-card .row {
+    align-items: center;
+}
+.currencyex-card .currency-info h5 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+.currencyex-card .currencyex-info p {
+    font-size: 0.85rem;
+    color: #9e9e9e;
+    margin-bottom: 0;
+}
+.currencyex-card .rates h6 {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #9e9e9e;
+    margin-bottom: 0.25rem;
+}
+.currencyex-card .rates .value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+}
+.currencyex-card .rates .change {
+    font-size: 0.8rem;
+    color: #4CAF50; /* Green color for up arrow */
+    margin-bottom: 0px;
+}
+.currencyex-card .details a {
+    font-size: 0.85rem;
+    color: #2196F3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.latest.dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: red;
+  /* box-shadow: 0 0 10px var(--green), 0 0 20px var(--green); */
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tab.active {
+    background: #4facfe;
+    color: white;
+}
+
+/* End Today Dashboard */
