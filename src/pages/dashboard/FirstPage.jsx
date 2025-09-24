@@ -8,10 +8,16 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 import APP_CONFIG from '../../config/AppConfig.js';
 import axios from "axios"
 
+import TypeTab from "../../components/TypeTab.jsx";
+import { useSelector, useDispatch } from 'react-redux'
+import MultiCurrencyCharts from "../../components/MultiCurrencyCharts.jsx";
+import WeeklyChart from "../../components/MultiCurrencyCharts.jsx";
+
+
 function FirstPage(){
     const [loading,setLoading] = useState(true);
     const [docu,setDocu] = useState({});
-
+    const type = useSelector((state) => state.type.value);
     useEffect(() => {
 
         axios.get(`${APP_CONFIG.backendURL}/api/exchangedocustodaydashboard`)
@@ -42,48 +48,46 @@ function FirstPage(){
 
     return (
         <>
-            <h4>Currency Exchange</h4>
             
             <div className="col-md-6">
-                <div class="tabs">
-                    <div id="" className="tab active">TT</div>
-                    <div id="" className="tab">Cash</div>
-                    <div id="" className="tab">Earn</div>
-                </div>
-                
+                <TypeTab/>
+                <h4>Currency Exchange</h4>
+
                 <small className="d-block text-end">{docu.date}</small>
                 {
                     docu.exchangerates.map((exchangerate,idx)=>(
                     <div key={idx} className="currencyex-card">
                         <div className="row align-items-center">
                             <div className="col-4 currencyex-info">
-                                <h5>{exchangerate.currency.code} <FontAwesomeIcon icon="fa-solid fa-euro-sign"/></h5>
+                                <h5>{exchangerate.currency.code} 
+                                    <FontAwesomeIcon icon={exchangerate.currency.icon}/>
+                                </h5>
                             </div>
                             <div className="col-4 text-center rates">
-                                <h6>TT Buy (MMK)</h6>
+                                <h6>{type.toUpperCase()} Buy (MMK)</h6>
                                 <span className="value">
-                                {Number(exchangerate.tt_buy).toLocaleString("en-US", {
+                                {Number(exchangerate[`${type}_buy`]).toLocaleString("en-US", {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2
                                 })}</span>
                                 <p className="change">
-                                    {exchangerate.diff_tt_buy !== null ? (
+                                    {exchangerate[`diff_${type}_buy`] !== null ? (
                                         <>
-                                        {exchangerate.diff_tt_buy > 0 && "+"}
-                                        <span className={exchangerate.diff_tt_buy > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate.diff_tt_buy).toFixed(2)}</span>
+                                        {exchangerate[`diff_${type}_buy`] > 0 && "+"}
+                                        <span className={exchangerate[`diff_${type}_buy`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_buy`]).toFixed(2)}</span>
                                         {" "}
                                         <FontAwesomeIcon
                                             icon={
-                                            exchangerate.diff_tt_buy > 0
+                                            exchangerate[`diff_${type}_buy`] > 0
                                                 ? "fa-solid fa-arrow-up"
-                                                : exchangerate.diff_tt_buy < 0
+                                                : exchangerate[`diff_${type}_buy`] < 0
                                                 ? "fa-solid fa-arrow-down"
                                                 : "fa-solid fa-minus"
                                             }
                                             className={
-                                            exchangerate.diff_tt_buy > 0
+                                            exchangerate[`diff_${type}_buy`] > 0
                                                 ? "text-success"
-                                                : exchangerate.diff_tt_buy < 0
+                                                : exchangerate[`diff_${type}_buy`] < 0
                                                 ? "text-danger"
                                                 : "text-muted"
                                             }
@@ -97,32 +101,32 @@ function FirstPage(){
 
                             </div>
                             <div className="col-4 text-center rates">
-                                <h6>TT Sell (MMK)</h6>
+                                <h6>{type.toUpperCase()} Sell (MMK)</h6>
                                 <span className="value">
 
-                                    {Number(exchangerate.tt_sell).toLocaleString("en-US", {
+                                    {Number(exchangerate[`${type}_sell`]).toLocaleString("en-US", {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2
                                     })}
                                 </span>
                                 <p className="change">
-                                    {exchangerate.diff_tt_sell !== null ? (
+                                    {exchangerate[`diff_${type}_sell`] !== null ? (
                                         <>
-                                        {exchangerate.diff_tt_sell > 0 && "+"}
-                                        <span className={exchangerate.diff_tt_sell > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate.diff_tt_sell).toFixed(2)}</span>
+                                        {exchangerate[`diff_${type}_sell`] > 0 && "+"}
+                                        <span className={exchangerate[`diff_${type}_sell`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_sell`]).toFixed(2)}</span>
                                         {" "}
                                         <FontAwesomeIcon
                                             icon={
-                                            exchangerate.diff_tt_sell > 0
+                                            exchangerate[`diff_${type}_sell`] > 0
                                                 ? "fa-solid fa-arrow-up"
-                                                : exchangerate.diff_tt_sell < 0
+                                                : exchangerate[`diff_${type}_sell`] < 0
                                                 ? "fa-solid fa-arrow-down"
                                                 : "fa-solid fa-minus"
                                             }
                                             className={
-                                            exchangerate.diff_tt_sell > 0
+                                            exchangerate[`diff_${type}_sell`] > 0
                                                 ? "text-success"
-                                                : exchangerate.diff_tt_sell < 0
+                                                : exchangerate[`diff_${type}_sell`] < 0
                                                 ? "text-danger"
                                                 : "text-muted"
                                             }
@@ -147,6 +151,10 @@ function FirstPage(){
                 }
 
 
+            </div>
+
+            <div className="col-md-12">
+                <MultiCurrencyCharts/>
             </div>
         </>
         

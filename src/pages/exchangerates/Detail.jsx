@@ -6,12 +6,16 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 import APP_CONFIG from '../../config/AppConfig.js';
 import axios from "axios"
 
+
+import TypeTab from "../../components/TypeTab.jsx";
+import { useSelector, useDispatch } from 'react-redux'
 function Detail(){
     const{id} = useParams();
 
     const [loading,setLoading] = useState(true);
     const [docus,setDocu] = useState({});
     const [latestRate, setLatestRage] = useState({});
+    const type = useSelector((state) => state.type.value);
 
     useEffect(() => {
 
@@ -46,36 +50,39 @@ function Detail(){
         <>
 
             <h1>{latestRate.currency.name}</h1>
+            <TypeTab/>
             <div className="currencyex-card">
                 <div className="row align-items-center">
                     <div className="col-4 currencyex-info">
-                        <h5>{latestRate.currency.code} <FontAwesomeIcon icon="fa-solid fa-euro-sign"/></h5>
+                        <h5>{latestRate.currency.code} 
+                            <FontAwesomeIcon icon={latestRate.currency.icon} />
+                        </h5>
                     </div>
                     <div className="col-4 text-center rates">
-                        <h6>TT Buy (MMK)</h6>
+                        <h6>{type.toUpperCase()} Buy (MMK)</h6>
                         <span className="value">
-                        {Number(latestRate.tt_buy).toLocaleString("en-US", {
+                        {Number(latestRate[`${type}_buy`]).toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
                         })}</span>
                         <p className="change">
-                            {latestRate.diff_tt_buy !== null ? (
+                            {latestRate[`diff_${type}_buy`] !== null ? (
                                 <>
-                                {latestRate.diff_tt_buy > 0 && "+"}
-                                <span className={latestRate.diff_tt_buy > 0 ? 'text-success' : 'text-danger'}>{parseFloat(latestRate.diff_tt_buy).toFixed(2)}</span>
+                                {latestRate[`diff_${type}_buy`] > 0 && "+"}
+                                <span className={latestRate[`diff_${type}_buy`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(latestRate[`diff_${type}_buy`]).toFixed(2)}</span>
                                 {" "}
                                 <FontAwesomeIcon
                                     icon={
-                                    latestRate.diff_tt_buy > 0
+                                    latestRate[`diff_${type}_buy`] > 0
                                         ? "fa-solid fa-arrow-up"
-                                        : latestRate.diff_tt_buy < 0
+                                        : latestRate[`diff_${type}_buy`] < 0
                                         ? "fa-solid fa-arrow-down"
                                         : "fa-solid fa-minus"
                                     }
                                     className={
-                                    latestRate.diff_tt_buy > 0
+                                    latestRate[`diff_${type}_buy`] > 0
                                         ? "text-success"
-                                        : latestRate.diff_tt_buy < 0
+                                        : latestRate[`diff_${type}_buy`] < 0
                                         ? "text-danger"
                                         : "text-muted"
                                     }
@@ -89,32 +96,32 @@ function Detail(){
 
                     </div>
                     <div className="col-4 text-center rates">
-                        <h6>TT Sell (MMK)</h6>
+                        <h6>{type.toUpperCase()} Sell (MMK)</h6>
                         <span className="value">
 
-                            {Number(latestRate.tt_sell).toLocaleString("en-US", {
+                            {Number(latestRate[`${type}_sell`]).toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
                             })}
                         </span>
                         <p className="change">
-                            {latestRate.diff_tt_sell !== null ? (
+                            {latestRate[`diff_${type}_sell`] !== null ? (
                                 <>
-                                {latestRate.diff_tt_sell > 0 && "+"}
-                                <span className={latestRate.diff_tt_sell > 0 ? 'text-success' : 'text-danger'}>{parseFloat(latestRate.diff_tt_sell).toFixed(2)}</span>
+                                {latestRate[`diff_${type}_sell`] > 0 && "+"}
+                                <span className={latestRate[`diff_${type}_sell`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(latestRate[`diff_${type}_sell`]).toFixed(2)}</span>
                                 {" "}
                                 <FontAwesomeIcon
                                     icon={
-                                    latestRate.diff_tt_sell > 0
+                                    latestRate[`diff_${type}_sell`] > 0
                                         ? "fa-solid fa-arrow-up"
-                                        : latestRate.diff_tt_sell < 0
+                                        : latestRate[`diff_${type}_sell`] < 0
                                         ? "fa-solid fa-arrow-down"
                                         : "fa-solid fa-minus"
                                     }
                                     className={
-                                    latestRate.diff_tt_sell > 0
+                                    latestRate[`diff_${type}_sell`] > 0
                                         ? "text-success"
-                                        : latestRate.diff_tt_sell < 0
+                                        : latestRate[`diff_${type}_sell`] < 0
                                         ? "text-danger"
                                         : "text-muted"
                                     }
@@ -151,35 +158,36 @@ function Detail(){
                                 <div key={idx} className="currencyex-card">
                                     <div className="row align-items-center">
                                         <div className="col-4 currencyex-info">
-                                            <h5>{`09:15 AM`} 
+                                            <h5>
+                                                {exchangerate.updated_time} 
                                                 {/* <FontAwesomeIcon icon="fa-solid fa-euro-sign"/> */}
                                             </h5>
                                         </div>
                                         <div className="col-4 text-center rates">
-                                            <h6>TT Buy (MMK)</h6>
+                                            <h6>{type.toUpperCase()} Buy (MMK)</h6>
                                             <span className="value">
-                                            {Number(exchangerate.tt_buy).toLocaleString("en-US", {
+                                            {Number(exchangerate[`${type}_buy`]).toLocaleString("en-US", {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2
                                             })}</span>
                                             <p className="change">
-                                                {exchangerate.diff_tt_buy !== null ? (
+                                                {exchangerate[`diff_${type}_buy`] !== null ? (
                                                     <>
-                                                    {exchangerate.diff_tt_buy > 0 && "+"}
-                                                    <span className={exchangerate.diff_tt_buy > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate.diff_tt_buy).toFixed(2)}</span>
+                                                    {exchangerate[`diff_${type}_buy`] > 0 && "+"}
+                                                    <span className={exchangerate[`diff_${type}_buy`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_buy`]).toFixed(2)}</span>
                                                     {" "}
                                                     <FontAwesomeIcon
                                                         icon={
-                                                        exchangerate.diff_tt_buy > 0
+                                                        exchangerate[`diff_${type}_buy`] > 0
                                                             ? "fa-solid fa-arrow-up"
-                                                            : exchangerate.diff_tt_buy < 0
+                                                            : exchangerate[`diff_${type}_buy`] < 0
                                                             ? "fa-solid fa-arrow-down"
                                                             : "fa-solid fa-minus"
                                                         }
                                                         className={
-                                                        exchangerate.diff_tt_buy > 0
+                                                        exchangerate[`diff_${type}_buy`] > 0
                                                             ? "text-success"
-                                                            : exchangerate.diff_tt_buy < 0
+                                                            : exchangerate[`diff_${type}_buy`] < 0
                                                             ? "text-danger"
                                                             : "text-muted"
                                                         }
@@ -193,32 +201,32 @@ function Detail(){
 
                                         </div>
                                         <div className="col-4 text-center rates">
-                                            <h6>TT Sell (MMK)</h6>
+                                            <h6>{type.toUpperCase()} Sell (MMK)</h6>
                                             <span className="value">
 
-                                                {Number(exchangerate.tt_sell).toLocaleString("en-US", {
+                                                {Number(exchangerate[`${type}_sell`]).toLocaleString("en-US", {
                                                     minimumFractionDigits: 2,
                                                     maximumFractionDigits: 2
                                                 })}
                                             </span>
                                             <p className="change">
-                                                {exchangerate.diff_tt_sell !== null ? (
+                                                {exchangerate[`diff_${type}_sell`] !== null ? (
                                                     <>
-                                                    {exchangerate.diff_tt_sell > 0 && "+"}
-                                                    <span className={exchangerate.diff_tt_sell > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate.diff_tt_sell).toFixed(2)}</span>
+                                                    {exchangerate[`diff_${type}_sell`] > 0 && "+"}
+                                                    <span className={exchangerate[`diff_${type}_sell`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_sell`]).toFixed(2)}</span>
                                                     {" "}
                                                     <FontAwesomeIcon
                                                         icon={
-                                                        exchangerate.diff_tt_sell > 0
+                                                        exchangerate[`diff_${type}_sell`] > 0
                                                             ? "fa-solid fa-arrow-up"
-                                                            : exchangerate.diff_tt_sell < 0
+                                                            : exchangerate[`diff_${type}_sell`] < 0
                                                             ? "fa-solid fa-arrow-down"
                                                             : "fa-solid fa-minus"
                                                         }
                                                         className={
-                                                        exchangerate.diff_tt_sell > 0
+                                                        exchangerate[`diff_${type}_sell`] > 0
                                                             ? "text-success"
-                                                            : exchangerate.diff_tt_sell < 0
+                                                            : exchangerate[`diff_${type}_sell`] < 0
                                                             ? "text-danger"
                                                             : "text-muted"
                                                         }
