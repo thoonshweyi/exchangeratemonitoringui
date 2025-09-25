@@ -45,27 +45,46 @@ const chartData = {
 };
 
 const options = (currency) => ({
-  title: `${currency} Weekly Rate`,
-  curveType: "function",
+  title: `${currency} Exchange Rate`,
   legend: { position: "bottom" },
-  hAxis: { title: "Date" },
-  vAxis: { title: "Rate (MMK)" },
+  hAxis: {
+    title: "Date",
+    slantedText: true,          
+    slantedTextAngle: 60,       
+    showTextEvery: 1,          
+    textStyle: {
+      fontSize: 10,            
+    }
+  },
+  vAxis: {
+    title: "Rate",
+  },
+  
+  chartArea: { 
+    left: 60,                 
+    top: 30, 
+    right: 20, 
+    bottom: 90                
+  },
+  explorer: { axis: 'horizontal', keepInBounds: true }
 });
-
 export default function MultiCurrencyCharts() {
   return (
     <div className="row">
       {Object.entries(chartData).map(([currency, data]) => (
-        <div key={currency} className="col-md-6 mb-4">
-          <Chart
-            chartType="LineChart"
-            width="100%"
-            height="300px"
-            data={data}
-            options={options(currency)}
-          />
+        <div key={currency} className="col-12 col-md-3 mb-4">
+          <div style={{ width: "100%", height: "300px" }}>
+            <Chart
+              chartType="LineChart"
+              width="100%"
+              height="100%"
+              data={data}
+              options={options(currency)}
+            />
+          </div>
         </div>
       ))}
     </div>
   );
 }
+
