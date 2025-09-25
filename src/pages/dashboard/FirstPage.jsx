@@ -6,7 +6,8 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
 
 import APP_CONFIG from '../../config/AppConfig.js';
-import axios from "axios"
+
+import api from "./../../auth/api";
 
 import TypeTab from "../../components/TypeTab.jsx";
 import { useSelector, useDispatch } from 'react-redux'
@@ -20,7 +21,7 @@ function FirstPage(){
     const type = useSelector((state) => state.type.value);
     useEffect(() => {
 
-        axios.get(`${APP_CONFIG.backendURL}/api/exchangedocustodaydashboard`)
+        api.get(`exchangedocustodaydashboard`)
             .then(res => {
             const docu = res.data;
             console.log(docu);

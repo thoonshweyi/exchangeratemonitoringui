@@ -4,8 +4,7 @@ import {useParams,useNavigate} from "react-router"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
-import APP_CONFIG from '../../config/AppConfig.js';
-import axios from "axios"
+import api from "./../../auth/api";
 
 function EditExchangeDocu(){
     const{id} = useParams();
@@ -22,7 +21,7 @@ function EditExchangeDocu(){
     useEffect(() => {
         if (!id) return;
 
-        axios.get(`${APP_CONFIG.backendURL}/api/exchangedocus/${id}`)
+        api.get(`/exchangedocus/${id}`)
             .then(res => {
             const docu = res.data;
             console.log(docu);
@@ -136,7 +135,7 @@ function EditExchangeDocu(){
         console.log(data);
 
         try{
-            const res = await axios.put(`${APP_CONFIG.backendURL}/api/exchangedocus/${id}`,data);
+            const res = await api.put(`/exchangedocus/${id}`,data);
             console.log(res.data);
 
             setformErrors({});

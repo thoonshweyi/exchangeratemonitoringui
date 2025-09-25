@@ -4,8 +4,7 @@ import {useParams,useNavigate} from "react-router"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
-import APP_CONFIG from './../../config/AppConfig.js';
-import axios from "axios"
+import api from "./../../auth/api";
 
 function AddExchangeDocu(){
     const navigate = useNavigate();
@@ -19,7 +18,7 @@ function AddExchangeDocu(){
     // console.log(recordDate);
 
     useEffect(()=>{
-        axios.get(`${APP_CONFIG.backendURL}/api/currencies`)
+        api.get(`/currencies`)
         .then(res=>{
             console.log(res.data);
 
@@ -107,7 +106,7 @@ function AddExchangeDocu(){
         console.log(data);
 
         try{
-            const res = await axios.post(`${APP_CONFIG.backendURL}/api/exchangedocus`,data);
+            const res = await api.post(`/exchangedocus`,data);
             console.log(res.data);
 
             setformErrors({});

@@ -1,7 +1,31 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Link} from "react-router";
 import user1 from "./../../assets/img/users/user1.jpg"
+
+import {useParams,useNavigate} from "react-router"
+
+import api from "./../../auth/api";
+
 function Navbar(){
+     const navigate = useNavigate();
+
+   const logoutHandler = (e) => {
+        api
+        .post(`/logout`)
+        .then((res) => {
+            console.log("Logout success:", res.data);
+        })
+        .catch((error) => {
+            console.error("Logout failed:", error.response?.data || error.message);
+        })
+        .finally(() => {
+            // Clear local storage regardless
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            navigate("/login");
+        });
+    };
+
     return (
 
         <>
@@ -128,7 +152,7 @@ function Navbar(){
                                                     <Link href="jascript:void(0);" className="dropdown-item"><FontAwesomeIcon icon="fas fa-cogs fa-sm text-muted me-2"/>Settings</Link>
                                                     <Link href="jascript:void(0);" className="dropdown-item"><FontAwesomeIcon icon="fas fa-list fa-sm text-muted me-2"/>Activity Log</Link>
                                                     <div className="dropdown-divider"></div>
-                                                    <Link href="jascript:void(0);" className="dropdown-item"><FontAwesomeIcon icon="fas fa-sign-out fa-sm text-muted me-2"/>Logout</Link>
+                                                    <button onClick={logoutHandler} className="dropdown-item"><FontAwesomeIcon icon="fas fa-sign-out fa-sm text-muted me-2"/>Logout</button>
 
                                                 </div>
                                             </li>

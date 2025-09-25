@@ -10,6 +10,7 @@ import AddExchangeDocu from "./pages/exchangedocus/AddExchangeDocu.jsx"
 import ExchangeDocusList from './pages/exchangedocus/ExchangeDocusList.jsx';
 import EditExchangeDocu from './pages/exchangedocus/EditExchangeDocu.jsx';
 import Detail from './pages/exchangerates/Detail.jsx';
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   // Layout with Navbar
@@ -43,9 +44,9 @@ function MainLayout() {
           <Router>
             <Routes>
 
-                {/* <Route path="/" element={<LoginPage />} /> */}
+                <Route path="/login" element={<LoginPage />} />
 
-                <Route element={<MainLayout/>}>
+                <Route element={<ProtectedRoute><MainLayout/></ProtectedRoute>}>
                   <Route path="/" element={<FirstPage />} />
                   <Route path="/dashboardsone" element={<FirstPage/>} />
                   

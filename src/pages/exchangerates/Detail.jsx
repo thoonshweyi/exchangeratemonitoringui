@@ -3,9 +3,7 @@ import {useParams,useNavigate,Link} from "react-router"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
-import APP_CONFIG from '../../config/AppConfig.js';
-import axios from "axios"
-
+import api from "./../../auth/api";
 
 import TypeTab from "../../components/TypeTab.jsx";
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,7 +17,7 @@ function Detail(){
 
     useEffect(() => {
 
-        axios.get(`${APP_CONFIG.backendURL}/api/exchangerates/${id}/detail`)
+        api.get(`exchangerates/${id}/detail`)
             .then(res => {
             const docus = res.data;
             console.log(docus);

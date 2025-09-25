@@ -4,8 +4,7 @@ import {useParams,useNavigate,Link} from "react-router"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
-import APP_CONFIG from './../../config/AppConfig.js';
-import axios from "axios"
+import api from "./../../auth/api";
 
 function ExchangeDocusList(){
     const navigate = useNavigate();
@@ -14,7 +13,7 @@ function ExchangeDocusList(){
     const [loading,setLoading] = useState(true);
 
     useEffect(()=>{
-        axios.get(`${APP_CONFIG.backendURL}/api/exchangedocus`)
+        api.get(`exchangedocus`)
         .then(res=>{
             console.log(res.data);
 
@@ -47,7 +46,7 @@ function ExchangeDocusList(){
                 <div className="col-md-12">
                     <div className="col-md-12 loader-container">
 
-                        <Link to="/exchangedocus/create" class="btn btn-primary mb-4 me-2">Create</Link>
+                        <Link to="/exchangedocus/create" className="btn btn-primary mb-4 me-2">Create</Link>
                         <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={'fas fa-arrow-left'} />Back</button>
                         <hr/>
 
