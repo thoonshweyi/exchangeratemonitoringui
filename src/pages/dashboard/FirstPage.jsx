@@ -40,10 +40,10 @@ function FirstPage(){
      // Not yet finish fetching
      if(loading){
           return (
-               <div className="text-center py-5">
-                    <FontAwesomeIcon icon={faSpinner} spin className="text-warning"/>
-                    <p className="mt-2">Loading Page....</p>
-               </div>
+            <div className="text-center py-5">
+                <FontAwesomeIcon icon={faSpinner} spin className="text-warning"/>
+                <p className="mt-2">Loading Page....</p>
+            </div>
           )
      }
 

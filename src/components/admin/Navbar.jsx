@@ -6,10 +6,14 @@ import {useParams,useNavigate} from "react-router"
 
 import api from "./../../auth/api";
 
-function Navbar(){
-     const navigate = useNavigate();
+import { useAuth } from "./../../context/AuthContext";
 
-   const logoutHandler = (e) => {
+function Navbar(){
+    const navigate = useNavigate();
+    // const user = JSON.parse(localStorage.getItem("user"));
+    const {user} = useAuth();
+    console.log(user);
+    const logoutHandler = (e) => {
         api
         .post(`/logout`)
         .then((res) => {
@@ -143,7 +147,7 @@ function Navbar(){
                                             {/* user logout */}
                                             <li className="nav-item dropdown">
                                                 <Link href="javascript:void(0);" className="dropdown-toggle" data-bs-toggle="dropdown">
-                                                    <span className="text-muted small me-2">Admin</span>
+                                                    <span className="text-muted small me-2">{user?.name}</span>
                                                     <img src={user1} className="rounded-circle" width="25" alt="" />
                                                 </Link>
                                                 <div className="dropdown-menu">
