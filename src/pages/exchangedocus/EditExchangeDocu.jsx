@@ -6,6 +6,8 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
 import api from "./../../auth/api";
 
+import EditRateModal from "./EditRateModal";
+import Swal from 'sweetalert2'
 function EditExchangeDocu(){
     const{id} = useParams();
     const navigate = useNavigate();
@@ -18,6 +20,9 @@ function EditExchangeDocu(){
     );
     // console.log(recordDate);
 
+    const [selectedRate, setSelectedRate] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedType,setSelectedType] = useState(null);
     useEffect(() => {
         if (!id) return;
 
@@ -150,6 +155,30 @@ function EditExchangeDocu(){
     }
 
 
+      const handleEditClick = (rate,type) => {
+        setSelectedRate(rate);
+        setSelectedType(type);
+        setShowModal(true);
+    };
+
+    const handleSaveRate = async (rateId, updatedFields) => {
+        try {
+            const res = await api.put(`/exchangerates/${rateId}`, updatedFields);
+            // update local state with new data
+
+            Swal.fire({
+                title: 'Rate Updated',
+                text: 'Updated Successfully',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+            setFormState((prev) =>
+                prev.map((r) => (r.id === rateId ? { ...r, ...res.data } : r))
+            );
+        } catch (err) {
+            console.error("Update failed:", err);
+        }
+    };
 
     // Not yet finish fetching
      if(loading){
@@ -209,16 +238,24 @@ function EditExchangeDocu(){
                                                         <div className="row">
                                                             {/* TT Rates */}
                                                             <div className="col-md-4 mb-3">
-                                                                <h6 className="text-primary mb-3"><FontAwesomeIcon icon="fas fa-university" className="me-2"/>TT Rates</h6>
+                                                                <div className="d-flex w-100 justify-content-between">
+                                                                    <h6 className="text-primary mb-3">
+                                                                        <FontAwesomeIcon icon="fas fa-university" className="me-2"/>TT Rates
+                                                                        {/* <FontAwesomeIcon icon="fas fa-edit" />     */}
+                                                                    </h6>
+                                                                    <button type="button" className="btn btn-outline-primary rounded-sm ms-2"   onClick={() => handleEditClick(rate,"tt")}><FontAwesomeIcon icon="fas fa-pen" /> </button>
+                                                                </div>
+
                                                                 <div className="d-flex gap-4">
-                                                                    <div className="mb-1">
+                                                                    <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
                                                                             // name={`exchangerates[${rate.id}][tt][buy]`} 
                                                                             placeholder="0.0000"
                                                                             value={rate.tt_buy}
                                                                             onChange={e => changeHandler(e, index, "tt_buy")}
-                                                                            />
+                                                                            /> */}
+                                                                            <h6 className="rate-value">{rate.tt_buy}</h6>
                                                                             {formErrors[`${rate.id}_tt_buy`] && (
                                                                                 <div className="text-danger small mb-1">
                                                                                     {Object.values(formErrors[`${rate.id}_tt_buy`]).map((msg, index) => (
@@ -229,14 +266,15 @@ function EditExchangeDocu(){
 
                                                                         
                                                                     </div>
-                                                                    <div className="mb-1">
+                                                                    <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
                                                                             // name={`exchangerates[${rate.id}][tt][sell]`} 
                                                                             placeholder="0.0000"
                                                                             value={rate.tt_sell}
                                                                             onChange={e => changeHandler(e, index, "tt_sell")}
-                                                                            />
+                                                                            /> */}
+                                                                            <h6 className="rate-value">{rate.tt_sell}</h6>
                                                                             {formErrors[`${rate.id}_tt_sell`] && (
                                                                                     <div className="text-danger small mb-1">
                                                                                         {Object.values(formErrors[`${rate.id}_tt_sell`]).map((msg, index) => (
@@ -251,15 +289,21 @@ function EditExchangeDocu(){
                                                             
                                                             {/* Cash Rates */}
                                                             <div className="col-md-4 mb-3">
-                                                                <h6 className="text-success mb-3"><FontAwesomeIcon icon="fa-solid fa-money-bill-1-wave" className="me-2" />Cash Rates</h6>
+                                                                <div className="d-flex w-100 justify-content-between">
+                                                                    <h6 className="text-success mb-3">
+                                                                        <FontAwesomeIcon icon="fa-solid fa-money-bill-1-wave" className="me-2" />Cash Rates
+                                                                    </h6>
+                                                                    <button type="button" className="btn btn-outline-primary rounded-sm ms-2"   onClick={() => handleEditClick(rate,'cash')}><FontAwesomeIcon icon="fas fa-pen" /> </button>
+                                                                </div>
                                                                 <div className="d-flex gap-4">
-                                                                    <div className="mb-1">
+                                                                    <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
                                                                             name={`cash_buy_${rate.id}`} placeholder="0.0000" 
                                                                             value={rate.cash_buy}
                                                                             onChange={e => changeHandler(e, index, "cash_buy")}
-                                                                            />
+                                                                            /> */}
+                                                                            <h6 className="rate-value">{rate.cash_buy}</h6>
                                                                             {formErrors[`${rate.id}_cash_buy`] && (
                                                                                     <div className="text-danger small mb-1">
                                                                                         {Object.values(formErrors[`${rate.id}_cash_buy`]).map((msg, index) => (
@@ -268,19 +312,20 @@ function EditExchangeDocu(){
                                                                                     </div>
                                                                             )}
                                                                     </div>
-                                                                    <div className="mb-1">
+                                                                    <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
                                                                             name={`cash_sell_${rate.id}`} placeholder="0.0000"
                                                                             value={rate.cash_sell}
                                                                             onChange={e => changeHandler(e, index, "cash_sell")}
-                                                                            />
+                                                                            /> */}
+                                                                        <h6 className="rate-value">{rate.cash_sell}</h6>
                                                                         {formErrors[`${rate.id}_cash_sell`] && (
-                                                                                    <div className="text-danger small mb-1">
-                                                                                        {Object.values(formErrors[`${rate.id}_cash_sell`]).map((msg, index) => (
-                                                                                            <div key={index}>{msg}</div>
-                                                                                        ))}
-                                                                                    </div>
+                                                                            <div className="text-danger small mb-1">
+                                                                                {Object.values(formErrors[`${rate.id}_cash_sell`]).map((msg, index) => (
+                                                                                    <div key={index}>{msg}</div>
+                                                                                ))}
+                                                                            </div>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -288,15 +333,20 @@ function EditExchangeDocu(){
                                                             
                                                             {/* Earn Rates */}
                                                             <div className="col-md-4 mb-3">
-                                                                <h6 className="text-warning mb-3"><FontAwesomeIcon icon="fa-solid fa-chart-line" className="me-2" />Earn Rates</h6>
+                                                                <div className="d-flex w-100 justify-content-between">
+                                                                    <h6 className="text-warning mb-3"><FontAwesomeIcon icon="fa-solid fa-chart-line" className="me-2" />Earn Rates</h6>
+                                                                    <button type="button" className="btn btn-outline-primary rounded-sm ms-2"   onClick={() => handleEditClick(rate,'earn')}><FontAwesomeIcon icon="fas fa-pen" /> </button>
+                                                                </div>
+                                           
                                                                 <div className="d-flex gap-4">
-                                                                    <div className="mb-1">
+                                                                    <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
                                                                             name={`earn_buy_${rate.id}`} placeholder="0.0000"
                                                                             value={rate.earn_buy}
                                                                             onChange={e => changeHandler(e, index, "earn_buy")}
-                                                                            />
+                                                                            /> */}
+                                                                            <h6 className="rate-value">{rate.earn_buy}</h6>
                                                                             {formErrors[`${rate.id}_earn_buy`] && (
                                                                                         <div className="text-danger small mb-1">
                                                                                             {Object.values(formErrors[`${rate.id}_earn_buy`]).map((msg, index) => (
@@ -305,13 +355,15 @@ function EditExchangeDocu(){
                                                                                         </div>
                                                                             )}
                                                                     </div>
-                                                                    <div className="mb-1">
+                                                                    <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
                                                                             name={`earn_sell_${rate.id}`} placeholder="0.0000" 
                                                                             value={rate.earn_sell} 
                                                                             onChange={e => changeHandler(e, index, "earn_sell")}
-                                                                            />
+                                                                            /> */}
+                                                                        <h6 className="rate-value">{rate.earn_sell}</h6>
+                                                                        
 
                                                                         {formErrors[`${rate.id}_earn_sell`] && (
                                                                                         <div className="text-danger small mb-1">
@@ -330,9 +382,9 @@ function EditExchangeDocu(){
                                         }
                                     </div>
 
-                                    <div className="d-grid mb-3">
+                                    {/* <div className="d-grid mb-3">
                                         <button type="submit" className="btn btn-primary btn-sm rounded-0">Update</button>
-                                    </div>
+                                    </div> */}
                             </div>
                         </form>
 
@@ -342,6 +394,17 @@ function EditExchangeDocu(){
                 </div>
             </div>
             {/* End Page Content Area */}
+
+
+            {selectedRate && (
+                <EditRateModal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                rate={selectedRate}
+                type={selectedType}
+                onSave={handleSaveRate}
+                />
+            )}
         </>
     )
 }

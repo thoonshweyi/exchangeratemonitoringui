@@ -43,7 +43,7 @@ function LoginPage(){
                     title: 'Error!',
                     text: 'Login Failed.The provided credentials do not match our records.',
                     icon: 'error',
-                    confirmButtonText: 'Cool'
+                    confirmButtonText: 'OK'
                 })
             }
           
@@ -55,7 +55,7 @@ function LoginPage(){
                 title: 'Error!',
                 text: 'Login Failed.The provided credentials do not match our records.',
                 icon: 'error',
-                confirmButtonText: 'Cool'
+                confirmButtonText: 'OK'
             })
         })
 
