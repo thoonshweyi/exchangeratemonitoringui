@@ -152,7 +152,6 @@ function Navbar(){
                                                 </Link>
                                                 <div className="dropdown-menu">
                                                     <Link href="jascript:void(0);" className="dropdown-item"><FontAwesomeIcon icon="fas fa-user fa-sm text-muted me-2"/>Profile</Link>
-                                                    <Link href="jascript:void(0);" className="dropdown-item"><FontAwesomeIcon icon="fas fa-user fa-sm text-muted me-2"/>Profile</Link>
                                                     <Link href="jascript:void(0);" className="dropdown-item"><FontAwesomeIcon icon="fas fa-cogs fa-sm text-muted me-2"/>Settings</Link>
                                                     <Link href="jascript:void(0);" className="dropdown-item"><FontAwesomeIcon icon="fas fa-list fa-sm text-muted me-2"/>Activity Log</Link>
                                                     <div className="dropdown-divider"></div>
@@ -173,7 +172,7 @@ function Navbar(){
                             <div className="col-lg-2 col-md-3 fixed-top vh-100 overflow-auto sidebars position-md-relatives">
                                 <ul className="navbar-nav flex-column mt-4">
                                     <li className="nav-item nav-categories">Main</li>
-                                    <li className="nav-item"><Link href="javascript:void(0);" className="nav-link text-white p-3 mb-2 sidebarlinks"><FontAwesomeIcon icon="fas fa-tachometer-alt fa-lg me-3"/> Dashboard</Link></li>
+                                    <li className="nav-item"><Link to="/" className="nav-link text-white p-3 mb-2 sidebarlinks"><FontAwesomeIcon icon="fas fa-tachometer-alt fa-lg me-3"/> Dashboard</Link></li>
                                     <li className="nav-item"><Link href="javascript:void(0);" className="nav-link text-white p-3 mb-2 sidebarlinks currents" data-bs-toggle="collapse" data-bs-target="#pagelayout"><FontAwesomeIcon icon="fas fa-sack-dollar fa-lg me-3" /> Exchange Rate <FontAwesomeIcon icon="fas fa-angle-left" className="mores"/></Link>
                                         <ul id="pagelayout" className="collapse ps-2">
                                             <li><Link to="/exchangedocus/create" className="nav-link text-white sidebarlinks"><FontAwesomeIcon icon="fas fa-long-arrow-alt-right" className="me-4"/> Entry Exchange Rate </Link></li>
