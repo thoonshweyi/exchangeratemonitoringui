@@ -180,7 +180,11 @@ a{
     justify-content: space-between;
     align-items: center;
 }
-
+.rate-value{
+  display: block;
+  flex: none !important;
+  width: 100% !important;
+}
 .currency-info {
     display: flex;
     align-items: center;
