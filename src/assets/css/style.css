@@ -199,7 +199,11 @@ a{
     font-weight: 600;
     font-size: 1rem;
 }
-        
+.rate-placeholder{
+  font-size: 11px;
+  color: #aaa;
+  margin-left: 2rem;
+}
 /* End Create Exchange Docu */
 
 

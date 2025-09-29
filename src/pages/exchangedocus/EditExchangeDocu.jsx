@@ -8,6 +8,9 @@ import api from "./../../auth/api";
 
 import EditRateModal from "./EditRateModal";
 import Swal from 'sweetalert2'
+
+
+import {Link} from "react-router";
 function EditExchangeDocu(){
     const{id} = useParams();
     const navigate = useNavigate();
@@ -23,6 +26,7 @@ function EditExchangeDocu(){
     const [selectedRate, setSelectedRate] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedType,setSelectedType] = useState(null);
+    const [newChange,setNewChange] = useState(null);
     useEffect(() => {
         if (!id) return;
 
@@ -43,6 +47,12 @@ function EditExchangeDocu(){
                 cash_sell: rate.cash_sell || "",
                 earn_buy: rate.earn_buy || "",
                 earn_sell: rate.earn_sell || "",
+                yes_tt_buy: rate.yes_tt_buy || "",
+                yes_tt_sell: rate.yes_tt_sell || "",
+                yes_cash_buy: rate.yes_cash_buy || "",
+                yes_cash_sell: rate.yes_cash_sell || "",
+                yes_earn_buy: rate.yes_earn_buy || "",
+                yes_earn_sell: rate.yes_earn_sell || "",
                 currency: rate.currency,
             }));
 
@@ -155,15 +165,17 @@ function EditExchangeDocu(){
     }
 
 
-      const handleEditClick = (rate,type) => {
+    const handleEditClick = (rate,type) => {
         setSelectedRate(rate);
         setSelectedType(type);
         setShowModal(true);
+        setNewChange(false);
     };
 
     const handleSaveRate = async (rateId, updatedFields) => {
         try {
-            const res = await api.put(`/exchangerates/${rateId}`, updatedFields);
+            console.log(newChange);
+            const res = await api.put(`/exchangerates/${rateId}`, {...updatedFields,newChange,selectedType});
             // update local state with new data
 
             Swal.fire({
@@ -246,7 +258,8 @@ function EditExchangeDocu(){
                                                                         <FontAwesomeIcon icon="fas fa-university" className="me-2"/>TT Rates
                                                                         {/* <FontAwesomeIcon icon="fas fa-edit" />     */}
                                                                     </h6>
-                                                                    <button type="button" className="btn btn-outline-primary rounded-sm ms-2"   onClick={() => handleEditClick(rate,"tt")}><FontAwesomeIcon icon="fas fa-pen" /> </button>
+                                                                    <Link type="button" onClick={() => handleEditClick(rate,"tt")}>Edit </Link>
+                                                                    <button type="button" className="btn btn-outline-secondary rounded-sm ms-2"   onClick={() => {handleEditClick(rate,"tt");setNewChange(true);}}><FontAwesomeIcon icon="fas fa-plus" /> </button>
                                                                 </div>
 
                                                                 <div className="d-flex gap-4">
@@ -259,6 +272,7 @@ function EditExchangeDocu(){
                                                                             onChange={e => changeHandler(e, index, "tt_buy")}
                                                                             /> */}
                                                                             <h6 className="rate-value">{rate.tt_buy}</h6>
+                                                                            <small className="rate-placeholder">{rate.yes_tt_buy}</small>
                                                                             {formErrors[`${rate.id}_tt_buy`] && (
                                                                                 <div className="text-danger small mb-1">
                                                                                     {Object.values(formErrors[`${rate.id}_tt_buy`]).map((msg, index) => (
@@ -278,6 +292,7 @@ function EditExchangeDocu(){
                                                                             onChange={e => changeHandler(e, index, "tt_sell")}
                                                                             /> */}
                                                                             <h6 className="rate-value">{rate.tt_sell}</h6>
+                                                                            <small className="rate-placeholder">{rate.yes_tt_sell}</small>
                                                                             {formErrors[`${rate.id}_tt_sell`] && (
                                                                                     <div className="text-danger small mb-1">
                                                                                         {Object.values(formErrors[`${rate.id}_tt_sell`]).map((msg, index) => (
@@ -296,7 +311,9 @@ function EditExchangeDocu(){
                                                                     <h6 className="text-success mb-3">
                                                                         <FontAwesomeIcon icon="fa-solid fa-money-bill-1-wave" className="me-2" />Cash Rates
                                                                     </h6>
-                                                                    <button type="button" className="btn btn-outline-primary rounded-sm ms-2"   onClick={() => handleEditClick(rate,'cash')}><FontAwesomeIcon icon="fas fa-pen" /> </button>
+
+                                                                    <Link type="button" onClick={() => handleEditClick(rate,"cash")}>Edit </Link>
+                                                                    <button type="button" className="btn btn-outline-secondary rounded-sm ms-2"   onClick={() =>{ handleEditClick(rate,"cash");setNewChange(true);}}><FontAwesomeIcon icon="fas fa-plus" /> </button>
                                                                 </div>
                                                                 <div className="d-flex gap-4">
                                                                     <div className="flex-fill mb-1">
@@ -307,6 +324,7 @@ function EditExchangeDocu(){
                                                                             onChange={e => changeHandler(e, index, "cash_buy")}
                                                                             /> */}
                                                                             <h6 className="rate-value">{rate.cash_buy}</h6>
+                                                                            <small className="rate-placeholder">{rate.yes_cash_buy}</small>
                                                                             {formErrors[`${rate.id}_cash_buy`] && (
                                                                                     <div className="text-danger small mb-1">
                                                                                         {Object.values(formErrors[`${rate.id}_cash_buy`]).map((msg, index) => (
@@ -323,6 +341,7 @@ function EditExchangeDocu(){
                                                                             onChange={e => changeHandler(e, index, "cash_sell")}
                                                                             /> */}
                                                                         <h6 className="rate-value">{rate.cash_sell}</h6>
+                                                                            <small className="rate-placeholder">{rate.yes_cash_sell}</small>
                                                                         {formErrors[`${rate.id}_cash_sell`] && (
                                                                             <div className="text-danger small mb-1">
                                                                                 {Object.values(formErrors[`${rate.id}_cash_sell`]).map((msg, index) => (
@@ -337,8 +356,11 @@ function EditExchangeDocu(){
                                                             {/* Earn Rates */}
                                                             <div className="col-md-4 mb-3">
                                                                 <div className="d-flex w-100 justify-content-between">
-                                                                    <h6 className="text-warning mb-3"><FontAwesomeIcon icon="fa-solid fa-chart-line" className="me-2" />Earn Rates</h6>
-                                                                    <button type="button" className="btn btn-outline-primary rounded-sm ms-2"   onClick={() => handleEditClick(rate,'earn')}><FontAwesomeIcon icon="fas fa-pen" /> </button>
+                                                                    <h6 className="text-warning mb-3">
+                                                                        <FontAwesomeIcon icon="fa-solid fa-chart-line" className="me-2" />Earn Rates
+                                                                    </h6>
+                                                                    <Link type="button" onClick={() => handleEditClick(rate,"earn")}>Edit </Link>
+                                                                    <button type="button" className="btn btn-outline-primary rounded-sm ms-2"   onClick={() =>{ handleEditClick(rate,'earn');setNewChange(true);}}><FontAwesomeIcon icon="fas fa-plus" /> </button>
                                                                 </div>
                                            
                                                                 <div className="d-flex gap-4">
@@ -350,6 +372,7 @@ function EditExchangeDocu(){
                                                                             onChange={e => changeHandler(e, index, "earn_buy")}
                                                                             /> */}
                                                                             <h6 className="rate-value">{rate.earn_buy}</h6>
+                                                                            <small className="rate-placeholder">{rate.yes_earn_buy}</small>
                                                                             {formErrors[`${rate.id}_earn_buy`] && (
                                                                                         <div className="text-danger small mb-1">
                                                                                             {Object.values(formErrors[`${rate.id}_earn_buy`]).map((msg, index) => (
@@ -366,6 +389,7 @@ function EditExchangeDocu(){
                                                                             onChange={e => changeHandler(e, index, "earn_sell")}
                                                                             /> */}
                                                                         <h6 className="rate-value">{rate.earn_sell}</h6>
+                                                                        <small className="rate-placeholder">{rate.yes_earn_sell}</small>
                                                                         
 
                                                                         {formErrors[`${rate.id}_earn_sell`] && (
@@ -379,6 +403,9 @@ function EditExchangeDocu(){
                                                                 </div>
                                                             </div>
                                                         </div>
+
+
+                                                        
                                                     </div>
                                                 </div>
                                             ))

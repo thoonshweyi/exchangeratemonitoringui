@@ -57,7 +57,8 @@ function ExchangeDocusList(){
                                         <tr>
                                             <th>Id</th>
                                             <th>Action</th>
-                                            <th>Date</th>
+                                            <th>Exchange Date</th>
+                                            <th>Updated At</th>
                                             <th>By</th>
                                         </tr>
                                     </thead>
@@ -69,7 +70,8 @@ function ExchangeDocusList(){
                                                 <td>
                                                     <Link to={`/exchangedocus/${exchangedocu.id}/edit`} className="text-info edit-btns" data-id="${data.id}" ><FontAwesomeIcon icon="fas fa-pen" /></Link>
                                                 </td>
-                                                <td>{exchangedocu.date}</td>
+                                                <td>{exchangedocu.dateFormat}</td>
+                                                <td>{exchangedocu.updated_at}</td>
                                                 <td>{exchangedocu.user.name}</td>
                                                 {/* <td>${data.created_at}</td>
                                                 <td>${data.updated_at}</td> */}
