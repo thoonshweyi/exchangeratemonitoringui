@@ -27,6 +27,7 @@ function LoginPage(){
 
         const data = formState;
         axios.post(`${APP_CONFIG.backendURL}/api/login`,data)
+        // axios.post(`/api/login`,data)
         .then(res=>{
             const { token, user } = res.data;
 

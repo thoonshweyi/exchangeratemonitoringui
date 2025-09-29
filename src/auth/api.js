@@ -2,6 +2,7 @@ import axios from "axios";
 import APP_CONFIG from './../config/AppConfig.js';
 
 const appURL = `${APP_CONFIG.backendURL}/api/`
+// const appURL = `/api/`;
 const api = axios.create({
     baseURL: appURL,
 });
