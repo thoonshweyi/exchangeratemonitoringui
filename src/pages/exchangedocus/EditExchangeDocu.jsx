@@ -192,6 +192,9 @@ function EditExchangeDocu(){
 
     return (
         <>
+            <div>
+                <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={"fs fa-arrow-left"} />Back</button>
+            </div>
             {/* Start Page Content Area */}
             <div className="container-fluid">
                 <div className="col-md-12">

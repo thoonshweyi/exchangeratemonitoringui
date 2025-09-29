@@ -9,6 +9,7 @@ import TypeTab from "../../components/TypeTab.jsx";
 import { useSelector, useDispatch } from 'react-redux'
 function Detail(){
     const{id} = useParams();
+    const navigate = useNavigate();
 
     const [loading,setLoading] = useState(true);
     const [docus,setDocu] = useState({});
@@ -46,7 +47,9 @@ function Detail(){
 
     return (
         <>
-
+            <div>
+                <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={"fs fa-arrow-left"} />Back</button>
+            </div>
             <h1>{latestRate.currency.name}</h1>
             <TypeTab/>
             <div className="currencyex-card">
