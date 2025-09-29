@@ -67,6 +67,7 @@ function AddExchangeDocu(){
     };
 
     const validate = () => {
+        return true;
         const formErrors = {};
 
         Object.entries(formState).forEach(([currencyId, currencyObj]) => {
