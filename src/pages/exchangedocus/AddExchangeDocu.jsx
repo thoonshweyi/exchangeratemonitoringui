@@ -16,6 +16,7 @@ function AddExchangeDocu(){
         new Date().toISOString().split("T")[0]
     );
     // console.log(recordDate);
+    const [loader,setLoader] = useState(false);
 
     useEffect(()=>{
         api.get(`/currencies`)
@@ -95,6 +96,7 @@ function AddExchangeDocu(){
     const submitHandler = async (e)=>{
         e.preventDefault();
         // console.log(formState);
+        setLoader(true);
 
         if (!validate()) {
             return false;
@@ -112,7 +114,10 @@ function AddExchangeDocu(){
 
             setformErrors({});
 		    setFormState({})
+            
             navigate(`/exchangedocus`);
+
+            setLoader(false);
 
         }catch(err){
             console.log('Add Exchange Rate failed',err);
@@ -316,7 +321,7 @@ function AddExchangeDocu(){
                                     </div>
 
                                     <div className="d-grid mb-3">
-                                        <button type="submit" className="btn btn-primary btn-sm rounded-0">Submit</button>
+                                        <button type="submit" className="btn btn-primary btn-sm rounded-0" disabled={loader}>{loader ? 'Processing....' : 'Submit'}</button>
                                     </div>
                             </div>
                         </form>

@@ -11,22 +11,36 @@ function ExchangeDocusList(){
 
     const [ exchangedocus ,setExchangeDocus] = useState(null); 
     const [loading,setLoading] = useState(true);
-
-    useEffect(()=>{
-        api.get(`exchangedocus`)
+    const [pagination, setPagination] = useState({});
+    const fetchRates = async (page = 1) => {
+        api.get(`exchangedocus?page=${page}`)
         .then(res=>{
             console.log(res.data);
 
             const fetchedexchangedocus = res.data.data;
             setExchangeDocus(res.data.data);
-
+            setPagination({
+                current_page: res.data.meta.current_page,
+                last_page: res.data.meta.last_page,
+                per_page: res.data.meta.per_page,
+                total: res.data.meta.total,
+            });
             setLoading(false);
         }).catch(err=>{
             console.error(`Error fetching product: ${err}`);
             setLoading(false);
         })
+    }
+
+    useEffect(()=>{
+        fetchRates();
     },[]);
 
+    const handlePageChange = (page) => {
+        if (page !== pagination.current_page) {
+        fetchRates(page);
+        }
+    };
 
 
      // Not yet finish fetching
@@ -81,7 +95,27 @@ function ExchangeDocusList(){
                                     </tbody>
 
                                 </table>
-
+                                
+                                {/* Pagination */}
+                                <nav>
+                                    <ul className="pagination">
+                                    {Array.from({ length: pagination.last_page || 0 }, (_, i) => (
+                                        <li
+                                        key={i + 1}
+                                        className={`page-item ${
+                                            pagination.current_page === i + 1 ? "active" : ""
+                                        }`}
+                                        >
+                                        <button
+                                            className="page-link"
+                                            onClick={() => handlePageChange(i + 1)}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                        </li>
+                                    ))}
+                                    </ul>
+                                </nav>
                         </div>
 
                     </div>
