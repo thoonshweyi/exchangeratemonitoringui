@@ -54,6 +54,7 @@ function EditExchangeDocu(){
                 yes_earn_buy: rate.yes_earn_buy || "",
                 yes_earn_sell: rate.yes_earn_sell || "",
                 currency: rate.currency,
+                changehistories: rate.changehistories,
             }));
 
             setFormState(initialState);
@@ -301,6 +302,81 @@ function EditExchangeDocu(){
                                                                                     </div>
                                                                             )}
 
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                {/* Change History */}
+                                                                <div className="mt-3">
+                                                                    <button
+                                                                        className="btn btn-link p-0 text-decoration-none"
+                                                                        type="button"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target={`#history-${rate.id}`}
+                                                                    >
+                                                                        <FontAwesomeIcon icon="fas fa-history" className="me-1" /> View Change History
+                                                                    </button>
+
+                                                                    <div className="collapse mt-2" id={`history-${rate.id}`}>
+                                                                        <div className="card card-body p-2 history-card">
+                                                                            <h6 className="fw-bold mb-3">Change History</h6>
+
+                                                                            <div className="history-timeline">
+
+                                                                                {/* <div className="history-entry mb-3">
+                                                                                <div className="d-flex justify-content-between">
+                                                                                    <span className="fw-bold text-success">Buy: 2100.50</span>
+                                                                                    <span className="fw-bold text-danger">Sell: 2115.75</span>
+                                                                                </div>
+                                                                                <div className="d-flex justify-content-between small text-muted">
+                                                                                    <span>2025-09-27 10:15 AM</span>
+                                                                                    <span>Admin</span>
+                                                                                </div>
+                                                                                </div>
+
+                                                                                <div className="history-entry mb-3">
+                                                                                <div className="d-flex justify-content-between">
+                                                                                    <span className="fw-bold text-success">Buy: 2095.00</span>
+                                                                                    <span className="fw-bold text-danger">Sell: 2108.25</span>
+                                                                                </div>
+                                                                                <div className="d-flex justify-content-between small text-muted">
+                                                                                    <span>2025-09-26 03:45 PM</span>
+                                                                                    <span>Manager</span>
+                                                                                </div>
+                                                                                </div>
+
+                                                                                <div className="history-entry mb-3">
+                                                                                <div className="d-flex justify-content-between">
+                                                                                    <span className="fw-bold text-success">Buy: 2090.00</span>
+                                                                                    <span className="fw-bold text-danger">Sell: 2105.50</span>
+                                                                                </div>
+                                                                                <div className="d-flex justify-content-between small text-muted">
+                                                                                    <span>2025-09-25 01:20 PM</span>
+                                                                                    <span>Admin</span>
+                                                                                </div>
+                                                                                </div> */}
+
+                                                                                {rate.changehistories && rate.changehistories.length > 0 ? (
+                                                                                    rate.changehistories
+                                                                                    .filter(ch => ch.type === "tt")
+                                                                                    .map((changehistory, idx) => (
+                                                                                        <div className="history-entry mb-3">
+                                                                                            <div className="d-flex justify-content-between">
+                                                                                                <span className="fw-bold text-success">Buy: {changehistory.buy}</span>
+                                                                                                <span className="fw-bold text-danger">Sell: {changehistory.sell}</span>
+                                                                                            </div>
+                                                                                            <div className="d-flex justify-content-between small text-muted">
+                                                                                                <span>{changehistory.record_at}</span>
+                                                                                                <span>{changehistory.user.name}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    ))
+                                                                                ) : 
+                                                                                (
+                                                                                    <div className="text-muted small">No history available</div>
+                                                                                )}
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
