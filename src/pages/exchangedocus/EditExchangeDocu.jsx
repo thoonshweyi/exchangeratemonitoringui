@@ -178,6 +178,9 @@ function EditExchangeDocu(){
             console.log(newChange);
             const res = await api.put(`/exchangerates/${rateId}`, {...updatedFields,newChange,selectedType});
             // update local state with new data
+            console.log(res.data);
+
+            const newHistory = res.data.changehistory;
 
             Swal.fire({
                 title: 'Rate Updated',
@@ -186,7 +189,13 @@ function EditExchangeDocu(){
                 confirmButtonText: 'OK'
             })
             setFormState((prev) =>
-                prev.map((r) => (r.id === rateId ? { ...r, ...res.data } : r))
+                prev.map((r) => (r.id === rateId ? { 
+                    ...r,
+                    ...res.data.data,
+                    changehistories: newHistory
+                        ? [...(r.changehistories || []), newHistory]
+                        : r.changehistories
+                } : r))
             );
         } catch (err) {
             console.error("Update failed:", err);
@@ -311,50 +320,16 @@ function EditExchangeDocu(){
                                                                         className="btn btn-link p-0 text-decoration-none"
                                                                         type="button"
                                                                         data-bs-toggle="collapse"
-                                                                        data-bs-target={`#history-${rate.id}`}
+                                                                        data-bs-target={`#history-${rate.id}-tt`}
                                                                     >
                                                                         <FontAwesomeIcon icon="fas fa-history" className="me-1" /> View Change History
                                                                     </button>
 
-                                                                    <div className="collapse mt-2" id={`history-${rate.id}`}>
+                                                                    <div className="collapse mt-2" id={`history-${rate.id}-tt`}>
                                                                         <div className="card card-body p-2 history-card">
                                                                             <h6 className="fw-bold mb-3">Change History</h6>
 
                                                                             <div className="history-timeline">
-
-                                                                                {/* <div className="history-entry mb-3">
-                                                                                <div className="d-flex justify-content-between">
-                                                                                    <span className="fw-bold text-success">Buy: 2100.50</span>
-                                                                                    <span className="fw-bold text-danger">Sell: 2115.75</span>
-                                                                                </div>
-                                                                                <div className="d-flex justify-content-between small text-muted">
-                                                                                    <span>2025-09-27 10:15 AM</span>
-                                                                                    <span>Admin</span>
-                                                                                </div>
-                                                                                </div>
-
-                                                                                <div className="history-entry mb-3">
-                                                                                <div className="d-flex justify-content-between">
-                                                                                    <span className="fw-bold text-success">Buy: 2095.00</span>
-                                                                                    <span className="fw-bold text-danger">Sell: 2108.25</span>
-                                                                                </div>
-                                                                                <div className="d-flex justify-content-between small text-muted">
-                                                                                    <span>2025-09-26 03:45 PM</span>
-                                                                                    <span>Manager</span>
-                                                                                </div>
-                                                                                </div>
-
-                                                                                <div className="history-entry mb-3">
-                                                                                <div className="d-flex justify-content-between">
-                                                                                    <span className="fw-bold text-success">Buy: 2090.00</span>
-                                                                                    <span className="fw-bold text-danger">Sell: 2105.50</span>
-                                                                                </div>
-                                                                                <div className="d-flex justify-content-between small text-muted">
-                                                                                    <span>2025-09-25 01:20 PM</span>
-                                                                                    <span>Admin</span>
-                                                                                </div>
-                                                                                </div> */}
-
                                                                                 {rate.changehistories && rate.changehistories.length > 0 ? (
                                                                                     rate.changehistories
                                                                                     .filter(ch => ch.type === "tt")
@@ -427,6 +402,46 @@ function EditExchangeDocu(){
                                                                         )}
                                                                     </div>
                                                                 </div>
+                                                                {/* Change History */}
+                                                                <div className="mt-3">
+                                                                    <button
+                                                                        className="btn btn-link p-0 text-decoration-none"
+                                                                        type="button"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target={`#history-${rate.id}-cash`}
+                                                                    >
+                                                                        <FontAwesomeIcon icon="fas fa-history" className="me-1" /> View Change History
+                                                                    </button>
+
+                                                                    <div className="collapse mt-2" id={`history-${rate.id}-cash`}>
+                                                                        <div className="card card-body p-2 history-card">
+                                                                            <h6 className="fw-bold mb-3">Change History</h6>
+
+                                                                            <div className="history-timeline">
+                                                                                {rate.changehistories && rate.changehistories.length > 0 ? (
+                                                                                    rate.changehistories
+                                                                                    .filter(ch => ch.type === "cash")
+                                                                                    .map((changehistory, idx) => (
+                                                                                        <div className="history-entry mb-3">
+                                                                                            <div className="d-flex justify-content-between">
+                                                                                                <span className="fw-bold text-success">Buy: {changehistory.buy}</span>
+                                                                                                <span className="fw-bold text-danger">Sell: {changehistory.sell}</span>
+                                                                                            </div>
+                                                                                            <div className="d-flex justify-content-between small text-muted">
+                                                                                                <span>{changehistory.record_at}</span>
+                                                                                                <span>{changehistory.user.name}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    ))
+                                                                                ) : 
+                                                                                (
+                                                                                    <div className="text-muted small">No history available</div>
+                                                                                )}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             
                                                             {/* Earn Rates */}
@@ -475,6 +490,46 @@ function EditExchangeDocu(){
                                                                                             ))}
                                                                                         </div>
                                                                             )}
+                                                                    </div>
+                                                                </div>
+                                                                {/* Change History */}
+                                                                <div className="mt-3">
+                                                                    <button
+                                                                        className="btn btn-link p-0 text-decoration-none"
+                                                                        type="button"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target={`#history-${rate.id}-earn`}
+                                                                    >
+                                                                        <FontAwesomeIcon icon="fas fa-history" className="me-1" /> View Change History
+                                                                    </button>
+
+                                                                    <div className="collapse mt-2" id={`history-${rate.id}-earn`}>
+                                                                        <div className="card card-body p-2 history-card">
+                                                                            <h6 className="fw-bold mb-3">Change History</h6>
+
+                                                                            <div className="history-timeline">
+                                                                                {rate.changehistories && rate.changehistories.length > 0 ? (
+                                                                                    rate.changehistories
+                                                                                    .filter(ch => ch.type === "earn")
+                                                                                    .map((changehistory, idx) => (
+                                                                                        <div className="history-entry mb-3">
+                                                                                            <div className="d-flex justify-content-between">
+                                                                                                <span className="fw-bold text-success">Buy: {changehistory.buy}</span>
+                                                                                                <span className="fw-bold text-danger">Sell: {changehistory.sell}</span>
+                                                                                            </div>
+                                                                                            <div className="d-flex justify-content-between small text-muted">
+                                                                                                <span>{changehistory.record_at}</span>
+                                                                                                <span>{changehistory.user.name}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    ))
+                                                                                ) : 
+                                                                                (
+                                                                                    <div className="text-muted small">No history available</div>
+                                                                                )}
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

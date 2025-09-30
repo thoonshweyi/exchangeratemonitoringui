@@ -156,95 +156,202 @@ function Detail(){
 
                             {
                                 docu.exchangerates.map((exchangerate,idx)=>(
-                                <div key={idx} className="currencyex-card">
-                                    <div className="row align-items-center">
-                                        <div className="col-4 currencyex-info">
-                                            <h5>
-                                                {exchangerate.updated_time} 
-                                                {/* <FontAwesomeIcon icon="fa-solid fa-euro-sign"/> */}
-                                            </h5>
-                                        </div>
-                                        <div className="col-4 text-center rates">
-                                            <h6>{type.toUpperCase()} Buy (MMK)</h6>
-                                            <span className="value">
-                                            {Number(exchangerate[`${type}_buy`]).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2
-                                            })}</span>
-                                            <p className="change">
-                                                {exchangerate[`diff_${type}_buy`] !== null ? (
-                                                    <>
-                                                    {exchangerate[`diff_${type}_buy`] > 0 && "+"}
-                                                    <span className={exchangerate[`diff_${type}_buy`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_buy`]).toFixed(2)}</span>
-                                                    {" "}
-                                                    <FontAwesomeIcon
-                                                        icon={
-                                                        exchangerate[`diff_${type}_buy`] > 0
-                                                            ? "fa-solid fa-arrow-up"
-                                                            : exchangerate[`diff_${type}_buy`] < 0
-                                                            ? "fa-solid fa-arrow-down"
-                                                            : "fa-solid fa-minus"
-                                                        }
-                                                        className={
-                                                        exchangerate[`diff_${type}_buy`] > 0
-                                                            ? "text-success"
-                                                            : exchangerate[`diff_${type}_buy`] < 0
-                                                            ? "text-danger"
-                                                            : "text-muted"
-                                                        }
-                                                    />
-                                                    </>
-                                                ) : (
-                                                    "0.00"
-                                                )}
-                                            </p>
-                                            
-
-                                        </div>
-                                        <div className="col-4 text-center rates">
-                                            <h6>{type.toUpperCase()} Sell (MMK)</h6>
-                                            <span className="value">
-
-                                                {Number(exchangerate[`${type}_sell`]).toLocaleString("en-US", {
+                                <>
+                                    {
+                                    index > 0 ?
+                                    <div key={idx} className="currencyex-card">
+                                        <div className="row align-items-center">
+                                            <div className="col-4 currencyex-info">
+                                                <h5>
+                                                    {exchangerate.updated_time} 
+                                                    {/* <FontAwesomeIcon icon="fa-solid fa-euro-sign"/> */}
+                                                </h5>
+                                            </div>
+                                            <div className="col-4 text-center rates">
+                                                <h6>{type.toUpperCase()} Buy (MMK)</h6>
+                                                <span className="value">
+                                                {Number(exchangerate[`${type}_buy`]).toLocaleString("en-US", {
                                                     minimumFractionDigits: 2,
                                                     maximumFractionDigits: 2
-                                                })}
-                                            </span>
-                                            <p className="change">
-                                                {exchangerate[`diff_${type}_sell`] !== null ? (
-                                                    <>
-                                                    {exchangerate[`diff_${type}_sell`] > 0 && "+"}
-                                                    <span className={exchangerate[`diff_${type}_sell`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_sell`]).toFixed(2)}</span>
-                                                    {" "}
-                                                    <FontAwesomeIcon
-                                                        icon={
-                                                        exchangerate[`diff_${type}_sell`] > 0
-                                                            ? "fa-solid fa-arrow-up"
-                                                            : exchangerate[`diff_${type}_sell`] < 0
-                                                            ? "fa-solid fa-arrow-down"
-                                                            : "fa-solid fa-minus"
-                                                        }
-                                                        className={
-                                                        exchangerate[`diff_${type}_sell`] > 0
-                                                            ? "text-success"
-                                                            : exchangerate[`diff_${type}_sell`] < 0
-                                                            ? "text-danger"
-                                                            : "text-muted"
-                                                        }
-                                                    />
-                                                    </>
-                                                ) : (
-                                                    "0.00"
-                                                )}
-                                            </p>
-                                            
+                                                })}</span>
+                                                <p className="change">
+                                                    {exchangerate[`diff_${type}_buy`] !== null ? (
+                                                        <>
+                                                        {exchangerate[`diff_${type}_buy`] > 0 && "+"}
+                                                        <span className={exchangerate[`diff_${type}_buy`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_buy`]).toFixed(2)}</span>
+                                                        {" "}
+                                                        <FontAwesomeIcon
+                                                            icon={
+                                                            exchangerate[`diff_${type}_buy`] > 0
+                                                                ? "fa-solid fa-arrow-up"
+                                                                : exchangerate[`diff_${type}_buy`] < 0
+                                                                ? "fa-solid fa-arrow-down"
+                                                                : "fa-solid fa-minus"
+                                                            }
+                                                            className={
+                                                            exchangerate[`diff_${type}_buy`] > 0
+                                                                ? "text-success"
+                                                                : exchangerate[`diff_${type}_buy`] < 0
+                                                                ? "text-danger"
+                                                                : "text-muted"
+                                                            }
+                                                        />
+                                                        </>
+                                                    ) : (
+                                                        "0.00"
+                                                    )}
+                                                </p>
+                                                
+
+                                            </div>
+                                            <div className="col-4 text-center rates">
+                                                <h6>{type.toUpperCase()} Sell (MMK)</h6>
+                                                <span className="value">
+
+                                                    {Number(exchangerate[`${type}_sell`]).toLocaleString("en-US", {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2
+                                                    })}
+                                                </span>
+                                                <p className="change">
+                                                    {exchangerate[`diff_${type}_sell`] !== null ? (
+                                                        <>
+                                                        {exchangerate[`diff_${type}_sell`] > 0 && "+"}
+                                                        <span className={exchangerate[`diff_${type}_sell`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(exchangerate[`diff_${type}_sell`]).toFixed(2)}</span>
+                                                        {" "}
+                                                        <FontAwesomeIcon
+                                                            icon={
+                                                            exchangerate[`diff_${type}_sell`] > 0
+                                                                ? "fa-solid fa-arrow-up"
+                                                                : exchangerate[`diff_${type}_sell`] < 0
+                                                                ? "fa-solid fa-arrow-down"
+                                                                : "fa-solid fa-minus"
+                                                            }
+                                                            className={
+                                                            exchangerate[`diff_${type}_sell`] > 0
+                                                                ? "text-success"
+                                                                : exchangerate[`diff_${type}_sell`] < 0
+                                                                ? "text-danger"
+                                                                : "text-muted"
+                                                            }
+                                                        />
+                                                        </>
+                                                    ) : (
+                                                        "0.00"
+                                                    )}
+                                                </p>
+                                                
+                                            </div>
+                                        
                                         </div>
-                                      
-                                    </div>
-                                </div>
+                                    </div> : ''
+                                    }
+                                    
+                                    {exchangerate.changehistories.filter(ch => ch.type === type) && exchangerate.changehistories.filter(ch => ch.type === type).length > 0 ? (
+                                        exchangerate.changehistories
+                                        .filter(ch => ch.type === type)
+                                        .map((changehistory,i)=>(
+                                            <>
+                                            <div key={i} className="currencyex-card">
+                                                <div className="row align-items-center">
+                                                    <div className="col-4 currencyex-info">
+                                                        <h5>
+                                                            {changehistory.updated_time} 
+                                                            {/* <FontAwesomeIcon icon="fa-solid fa-euro-sign"/> */}
+                                                        </h5>
+                                                    </div>
+                                                    <div className="col-4 text-center rates">
+                                                        <h6>{type.toUpperCase()} Buy (MMK)</h6>
+                                                        <span className="value">
+                                                        {Number(changehistory[`buy`]).toLocaleString("en-US", {
+                                                            minimumFractionDigits: 2,
+                                                            maximumFractionDigits: 2
+                                                        })}</span>
+                                                        <p className="change">
+                                                            {changehistory[`diff_${type}_buy`] !== null ? (
+                                                                <>
+                                                                {changehistory[`diff_${type}_buy`] > 0 && "+"}
+                                                                <span className={changehistory[`diff_${type}_buy`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(changehistory[`diff_${type}_buy`]).toFixed(2)}</span>
+                                                                {" "}
+                                                                <FontAwesomeIcon
+                                                                    icon={
+                                                                    changehistory[`diff_${type}_buy`] > 0
+                                                                        ? "fa-solid fa-arrow-up"
+                                                                        : changehistory[`diff_${type}_buy`] < 0
+                                                                        ? "fa-solid fa-arrow-down"
+                                                                        : "fa-solid fa-minus"
+                                                                    }
+                                                                    className={
+                                                                    changehistory[`diff_${type}_buy`] > 0
+                                                                        ? "text-success"
+                                                                        : changehistory[`diff_${type}_buy`] < 0
+                                                                        ? "text-danger"
+                                                                        : "text-muted"
+                                                                    }
+                                                                />
+                                                                </>
+                                                            ) : (
+                                                                "0.00"
+                                                            )}
+                                                        </p>
+                                                        
+
+                                                    </div>
+                                                    <div className="col-4 text-center rates">
+                                                        <h6>{type.toUpperCase()} Sell (MMK)</h6>
+                                                        <span className="value">
+
+                                                            {Number(changehistory[`sell`]).toLocaleString("en-US", {
+                                                                minimumFractionDigits: 2,
+                                                                maximumFractionDigits: 2
+                                                            })}
+                                                        </span>
+                                                        <p className="change">
+                                                            {changehistory[`sell`] !== null ? (
+                                                                <>
+                                                                {changehistory[`diff_${type}_sell`] > 0 && "+"}
+                                                                <span className={changehistory[`diff_${type}_sell`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(changehistory[`diff_${type}_sell`]).toFixed(2)}</span>
+                                                                {" "}
+                                                                <FontAwesomeIcon
+                                                                    icon={
+                                                                    changehistory[`diff_${type}_sell`] > 0
+                                                                        ? "fa-solid fa-arrow-up"
+                                                                        : changehistory[`diff_${type}_sell`] < 0
+                                                                        ? "fa-solid fa-arrow-down"
+                                                                        : "fa-solid fa-minus"
+                                                                    }
+                                                                    className={
+                                                                    changehistory[`diff_${type}_sell`] > 0
+                                                                        ? "text-success"
+                                                                        : changehistory[`diff_${type}_sell`] < 0
+                                                                        ? "text-danger"
+                                                                        : "text-muted"
+                                                                    }
+                                                                />
+                                                                </>
+                                                            ) : (
+                                                                "0.00"
+                                                            )}
+                                                        </p>
+                                                        
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>
+                                    
+                                            </>
+                                        ))
+                                     ) : 
+                                    (
+                                        <div className="text-white small text-center">No history available</div>
+                                    )
+                                    }
+                                </>
 
                                 ))
+
                             }
+                            
                             
                         </div>
                     ))
