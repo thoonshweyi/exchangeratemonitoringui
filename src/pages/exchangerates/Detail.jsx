@@ -50,6 +50,7 @@ function Detail(){
             <div>
                 <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={"fs fa-arrow-left"} />Back</button>
             </div>
+            
             <h1>{latestRate.currency.name}</h1>
             <TypeTab/>
             <div className="currencyex-card">
@@ -151,7 +152,8 @@ function Detail(){
                         <div key={index} className="history-item">
 
                             <div className="col-12">
-                                <h6>{docu.date}</h6>
+                                {/* <h6>{ docu.exchangerates.length > 0 ? docu.date : ''}</h6> */}
+                                <h6>{ (index > 0 || (docu.exchangerates.length > 0 && docu.exchangerates[0].changehistories.length > 0)) ? docu.date : ''}</h6>
                             </div>
 
                             {
@@ -247,105 +249,111 @@ function Detail(){
                                     </div> : ''
                                     }
                                     
-                                    {exchangerate.changehistories.filter(ch => ch.type === type) && exchangerate.changehistories.filter(ch => ch.type === type).length > 0 ? (
-                                        exchangerate.changehistories
+                                    {exchangerate.changehistories.filter(ch => ch.type === type).length > 0 ? (
+                                    exchangerate.changehistories
                                         .filter(ch => ch.type === type)
-                                        .map((changehistory,i)=>(
-                                            <>
-                                            <div key={i} className="currencyex-card">
-                                                <div className="row align-items-center">
-                                                    <div className="col-4 currencyex-info">
-                                                        <h5>
-                                                            {changehistory.updated_time} 
-                                                            {/* <FontAwesomeIcon icon="fa-solid fa-euro-sign"/> */}
-                                                        </h5>
-                                                    </div>
-                                                    <div className="col-4 text-center rates">
-                                                        <h6>{type.toUpperCase()} Buy (MMK)</h6>
-                                                        <span className="value">
-                                                        {Number(changehistory[`buy`]).toLocaleString("en-US", {
-                                                            minimumFractionDigits: 2,
-                                                            maximumFractionDigits: 2
-                                                        })}</span>
-                                                        <p className="change">
-                                                            {changehistory[`diff_${type}_buy`] !== null ? (
-                                                                <>
-                                                                {changehistory[`diff_${type}_buy`] > 0 && "+"}
-                                                                <span className={changehistory[`diff_${type}_buy`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(changehistory[`diff_${type}_buy`]).toFixed(2)}</span>
-                                                                {" "}
-                                                                <FontAwesomeIcon
-                                                                    icon={
-                                                                    changehistory[`diff_${type}_buy`] > 0
-                                                                        ? "fa-solid fa-arrow-up"
-                                                                        : changehistory[`diff_${type}_buy`] < 0
-                                                                        ? "fa-solid fa-arrow-down"
-                                                                        : "fa-solid fa-minus"
-                                                                    }
-                                                                    className={
-                                                                    changehistory[`diff_${type}_buy`] > 0
-                                                                        ? "text-success"
-                                                                        : changehistory[`diff_${type}_buy`] < 0
-                                                                        ? "text-danger"
-                                                                        : "text-muted"
-                                                                    }
-                                                                />
-                                                                </>
-                                                            ) : (
-                                                                "0.00"
-                                                            )}
-                                                        </p>
-                                                        
-
-                                                    </div>
-                                                    <div className="col-4 text-center rates">
-                                                        <h6>{type.toUpperCase()} Sell (MMK)</h6>
-                                                        <span className="value">
-
-                                                            {Number(changehistory[`sell`]).toLocaleString("en-US", {
-                                                                minimumFractionDigits: 2,
-                                                                maximumFractionDigits: 2
-                                                            })}
-                                                        </span>
-                                                        <p className="change">
-                                                            {changehistory[`sell`] !== null ? (
-                                                                <>
-                                                                {changehistory[`diff_${type}_sell`] > 0 && "+"}
-                                                                <span className={changehistory[`diff_${type}_sell`] > 0 ? 'text-success' : 'text-danger'}>{parseFloat(changehistory[`diff_${type}_sell`]).toFixed(2)}</span>
-                                                                {" "}
-                                                                <FontAwesomeIcon
-                                                                    icon={
-                                                                    changehistory[`diff_${type}_sell`] > 0
-                                                                        ? "fa-solid fa-arrow-up"
-                                                                        : changehistory[`diff_${type}_sell`] < 0
-                                                                        ? "fa-solid fa-arrow-down"
-                                                                        : "fa-solid fa-minus"
-                                                                    }
-                                                                    className={
-                                                                    changehistory[`diff_${type}_sell`] > 0
-                                                                        ? "text-success"
-                                                                        : changehistory[`diff_${type}_sell`] < 0
-                                                                        ? "text-danger"
-                                                                        : "text-muted"
-                                                                    }
-                                                                />
-                                                                </>
-                                                            ) : (
-                                                                "0.00"
-                                                            )}
-                                                        </p>
-                                                        
-                                                    </div>
-                                                
-                                                </div>
+                                        .map((changehistory, i) => (
+                                        <div key={i} className="currencyex-card">
+                                            <div className="row align-items-center">
+                                            <div className="col-4 currencyex-info">
+                                                <h5>{changehistory.updated_time}</h5>
                                             </div>
-                                    
-                                            </>
+
+                                            <div className="col-4 text-center rates">
+                                                <h6>{type.toUpperCase()} Buy (MMK)</h6>
+                                                <span className="value">
+                                                {Number(changehistory.buy).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                                </span>
+                                                <p className="change">
+                                                {changehistory[`diff_${type}_buy`] !== null ? (
+                                                    <>
+                                                    {changehistory[`diff_${type}_buy`] > 0 && "+"}
+                                                    <span
+                                                        className={
+                                                        changehistory[`diff_${type}_buy`] > 0
+                                                            ? "text-success"
+                                                            : "text-danger"
+                                                        }
+                                                    >
+                                                        {parseFloat(changehistory[`diff_${type}_buy`]).toFixed(2)}
+                                                    </span>{" "}
+                                                    <FontAwesomeIcon
+                                                        icon={
+                                                        changehistory[`diff_${type}_buy`] > 0
+                                                            ? "fa-solid fa-arrow-up"
+                                                            : changehistory[`diff_${type}_buy`] < 0
+                                                            ? "fa-solid fa-arrow-down"
+                                                            : "fa-solid fa-minus"
+                                                        }
+                                                        className={
+                                                        changehistory[`diff_${type}_buy`] > 0
+                                                            ? "text-success"
+                                                            : changehistory[`diff_${type}_buy`] < 0
+                                                            ? "text-danger"
+                                                            : "text-muted"
+                                                        }
+                                                    />
+                                                    </>
+                                                ) : (
+                                                    "0.00"
+                                                )}
+                                                </p>
+                                            </div>
+
+                                            <div className="col-4 text-center rates">
+                                                <h6>{type.toUpperCase()} Sell (MMK)</h6>
+                                                <span className="value">
+                                                {Number(changehistory.sell).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                                </span>
+                                                <p className="change">
+                                                {changehistory[`diff_${type}_sell`] !== null ? (
+                                                    <>
+                                                    {changehistory[`diff_${type}_sell`] > 0 && "+"}
+                                                    <span
+                                                        className={
+                                                        changehistory[`diff_${type}_sell`] > 0
+                                                            ? "text-success"
+                                                            : "text-danger"
+                                                        }
+                                                    >
+                                                        {parseFloat(changehistory[`diff_${type}_sell`]).toFixed(2)}
+                                                    </span>{" "}
+                                                    <FontAwesomeIcon
+                                                        icon={
+                                                        changehistory[`diff_${type}_sell`] > 0
+                                                            ? "fa-solid fa-arrow-up"
+                                                            : changehistory[`diff_${type}_sell`] < 0
+                                                            ? "fa-solid fa-arrow-down"
+                                                            : "fa-solid fa-minus"
+                                                        }
+                                                        className={
+                                                        changehistory[`diff_${type}_sell`] > 0
+                                                            ? "text-success"
+                                                            : changehistory[`diff_${type}_sell`] < 0
+                                                            ? "text-danger"
+                                                            : "text-muted"
+                                                        }
+                                                    />
+                                                    </>
+                                                ) : (
+                                                    "0.00"
+                                                )}
+                                                </p>
+                                            </div>
+                                            </div>
+                                        </div>
                                         ))
-                                     ) : 
-                                    (
-                                        <div className="text-white small text-center">No history available</div>
-                                    )
-                                    }
+                                    ) : (
+                                    <></>
+                                    )}
+
+
                                 </>
 
                                 ))

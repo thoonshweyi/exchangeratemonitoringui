@@ -12,8 +12,17 @@ function ExchangeDocusList(){
     const [ exchangedocus ,setExchangeDocus] = useState(null); 
     const [loading,setLoading] = useState(true);
     const [pagination, setPagination] = useState({});
+    const [formState, setformState] = useState({
+        "from_date": '',
+        "to_date": ''
+    });
     const fetchRates = async (page = 1) => {
-        api.get(`exchangedocus?page=${page}`)
+        api.get(`exchangedocus`,{
+            params: {
+                page,
+                ...formState   // merge your filters
+            }
+        })
         .then(res=>{
             console.log(res.data);
 
@@ -60,9 +69,31 @@ function ExchangeDocusList(){
                 <div className="col-md-12">
                     <div className="col-md-12 loader-container">
 
-                        <Link to="/exchangedocus/create" className="btn btn-primary mb-4 me-2">Create</Link>
-                        <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={'fas fa-arrow-left'} />Back</button>
+                        <Link to="/exchangedocus/create" className="btn btn-primary mb-2 me-2">Create</Link>
+                        <button type="button" className="btn btn-outline-secondary mb-2" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={'fas fa-arrow-left'} />Back</button>
                         <hr/>
+                        
+                 
+                        <form action="" method="">
+                            <div className="row mb-2">
+                                <div className="col-md-3 mb-2">
+                                    <label htmlFor="from_date">From Date</label>
+                                    <input type="date" name="from_date" id="from_date" className="form-control" placeholder="" />
+                                </div>
+
+                                <div className="col-md-3 mb-2">
+                                    <label htmlFor="to_date">To Date</label>
+                                    <input type="date" name="to_date" id="to_date" className="form-control" placeholder="" />
+                                </div>
+                                
+                                <div className="col mb-2">
+                                    <button className="btn btn-success mb-2 me-2">Search</button>
+                                </div>
+
+                            </div>
+
+                        </form>
+                  
 
                         <div className="table-container">
                                 <table id="mytable"  className="table table-md table-hover border">

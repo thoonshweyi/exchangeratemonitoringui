@@ -49,9 +49,9 @@ function FirstPage(){
 
     return (
         <>
+            <TypeTab/>
             
             <div className="col-md-6">
-                <TypeTab/>
                 <h4>Currency Exchange</h4>
 
                 <small className="d-block text-end">{docu.date}</small>

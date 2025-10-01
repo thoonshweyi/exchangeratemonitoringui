@@ -515,6 +515,11 @@ a{
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
+    background: #222;
+    position: sticky;
+    top: 0px;
+    z-index: 1000;
+    padding: 20px;
 }
 
 .tab {
