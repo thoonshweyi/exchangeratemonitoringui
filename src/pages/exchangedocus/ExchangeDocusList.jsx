@@ -12,7 +12,7 @@ function ExchangeDocusList(){
     const [ exchangedocus ,setExchangeDocus] = useState(null); 
     const [loading,setLoading] = useState(true);
     const [pagination, setPagination] = useState({});
-    const [formState, setformState] = useState({
+    const [formState, setFormState] = useState({
         "from_date": '',
         "to_date": ''
     });
@@ -43,13 +43,54 @@ function ExchangeDocusList(){
 
     useEffect(()=>{
         fetchRates();
-    },[]);
+    },[formState]);
 
     const handlePageChange = (page) => {
         if (page !== pagination.current_page) {
         fetchRates(page);
         }
     };
+
+    const changeHandler = (e)=>{
+          // const name = e.target.name;
+          // const value = e.target.value;
+          // console.log(name,value);
+
+          // setFormState({
+          //      ...formState,
+          //      [e.target.name]: e.target.value
+          // });
+
+          const {name,value} = e.target;
+          setFormState(prev=>{
+             return {...prev,[name]:value}
+          });
+     } 
+
+    const submitHandler = (e)=>{
+        e.preventDefault();
+
+        console.log(formState);
+        fetchRates(1);
+        // settasks(prev=>{
+        //     return [...prev,formState]
+        // });
+
+        // setFormState({
+        //     name:"",
+        //     quantity:1,
+        //     tags:[],
+        //     package:""
+        // });
+    }
+
+    const refreshHandler = ()=>{
+        setFormState({
+            "from_date": '',
+            "to_date": ''
+        });
+        fetchRates(1);
+    }
 
 
      // Not yet finish fetching
@@ -74,20 +115,21 @@ function ExchangeDocusList(){
                         <hr/>
                         
                  
-                        <form action="" method="">
-                            <div className="row mb-2">
+                        <form action="" method=""  onSubmit={submitHandler}>
+                            <div className="row mb-2 align-items-end">
                                 <div className="col-md-3 mb-2">
                                     <label htmlFor="from_date">From Date</label>
-                                    <input type="date" name="from_date" id="from_date" className="form-control" placeholder="" />
+                                    <input type="date" name="from_date" id="from_date" className="form-control" placeholder="" onChange={changeHandler} value={formState.from_date}/>
                                 </div>
 
                                 <div className="col-md-3 mb-2">
                                     <label htmlFor="to_date">To Date</label>
-                                    <input type="date" name="to_date" id="to_date" className="form-control" placeholder="" />
+                                    <input type="date" name="to_date" id="to_date" className="form-control" placeholder="" onChange={changeHandler} value={formState.to_date}/>
                                 </div>
                                 
                                 <div className="col mb-2">
-                                    <button className="btn btn-success mb-2 me-2">Search</button>
+                                    {/* <button type="submit" className="btn btn-success mb-2 me-2">Search</button> */}
+                                    <button type="button" className="btn btn-secondary mb-2 me-2" onClick={refreshHandler}>Refresh</button>
                                 </div>
 
                             </div>
