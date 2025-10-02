@@ -136,8 +136,8 @@ function Detail(){
                         
                     </div>
                     <div className="d-flex justify-content-center align-items-center mt-2">
-                            <div className="latest dot"></div>
-                            <small className="ms-2">Latest Price</small>
+                            <div className={`${latestRate.created_at == latestRate.record_at ? "ref" : "latest"} dot`}></div>
+                            <small className="ms-2">{ latestRate.created_at == latestRate.record_at ? 'Reference Price' : 'Latest Price' }</small>
                     </div>
                 </div>
             </div>

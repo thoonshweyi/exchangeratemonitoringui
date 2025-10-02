@@ -501,15 +501,20 @@ a{
     font-weight: bold;
 }
 
-.latest.dot{
+.dot{
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: red;
+
   /* box-shadow: 0 0 10px var(--green), 0 0 20px var(--green); */
   animation: pulse 1.5s ease-in-out infinite;
 }
-
+.latest{
+  background: red;
+}
+.ref{
+  background: orange;
+}
 
 .tabs {
     display: flex;

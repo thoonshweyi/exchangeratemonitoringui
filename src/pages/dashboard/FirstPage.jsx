@@ -145,6 +145,10 @@ function FirstPage(){
                                     <Link to={`/exchangerates/${exchangerate.id}`}>Details<FontAwesomeIcon icon="fa-solid fa-chevron-right ms-1"/></Link>
                                 </div>
                             </div>
+                            <div className="d-flex justify-content-center align-items-center mt-2">
+                                    <div className={`${exchangerate.created_at == exchangerate.record_at ? "ref" : "latest"} dot`}></div>
+                                    <small className="ms-2">{ exchangerate.created_at == exchangerate.record_at ? 'Reference Price' : 'Latest Price' }</small>
+                            </div>
                         </div>
                     </div>
 

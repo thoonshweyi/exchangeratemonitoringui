@@ -146,7 +146,7 @@ function EditExchangeDocu(){
 
         const data = { 
             date: recordDate,
-		    exchangerates: formState 
+		    // exchangerates: formState 
         };
         console.log(data);
 
@@ -193,7 +193,7 @@ function EditExchangeDocu(){
                     ...r,
                     ...res.data.data,
                     changehistories: newHistory
-                        ? [...(r.changehistories || []), newHistory]
+                        ? [newHistory,...(r.changehistories || [])]
                         : r.changehistories
                 } : r))
             );
@@ -543,9 +543,9 @@ function EditExchangeDocu(){
                                         }
                                     </div>
 
-                                    {/* <div className="d-grid mb-3">
+                                    <div className="d-grid mb-3">
                                         <button type="submit" className="btn btn-primary btn-sm rounded-0">Update</button>
-                                    </div> */}
+                                    </div>
                             </div>
                         </form>
 

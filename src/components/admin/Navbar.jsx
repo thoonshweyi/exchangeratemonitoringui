@@ -8,6 +8,9 @@ import api from "./../../auth/api";
 
 import { useAuth } from "./../../context/AuthContext";
 import { NavLink } from "react-router-dom";
+
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 function Navbar(){
     const navigate = useNavigate();
     // const user = JSON.parse(localStorage.getItem("user"));
@@ -29,6 +32,18 @@ function Navbar(){
             navigate("/login");
         });
     };
+
+
+
+    const location = useLocation();
+
+    useEffect(() => {
+        // close collapse by removing `show` class manually
+        const navbar = document.getElementById("nav");
+        if (navbar && navbar.classList.contains("show")) {
+        navbar.classList.remove("show");
+        }
+    }, [location]); 
 
     return (
 
