@@ -137,14 +137,14 @@ function Detail(){
                     </div>
                     <div className="d-flex justify-content-center align-items-center mt-2">
                             <div className={`${latestRate.created_at == latestRate.record_at ? "ref" : "latest"} dot`}></div>
-                            <small className="ms-2">{ latestRate.created_at == latestRate.record_at ? 'Reference Price' : 'Latest Price' }</small>
+                            <small className="ms-2">{ latestRate.created_at == latestRate.record_at ? 'ယခင်နေ့ဈေး' : 'နောက်ဆုံးရဈေး' }</small>
                     </div>
                 </div>
             </div>
 
 
             <div className="col-md-6">
-                <h5>Change History</h5>
+                <h5>Rate Change History</h5>
     
 
                 {

@@ -55,7 +55,7 @@ function EditRateModal({ show, onClose, rate, onSave, type }) {
                     <label className="form-label">Buy</label>
                     <input
                       type="number"
-                      step="0.0001"
+                      step="0.01"
                       className="form-control"
                       name={`${type}_buy`}
                       value={form[`${type}_buy`] || ""}
@@ -66,7 +66,7 @@ function EditRateModal({ show, onClose, rate, onSave, type }) {
                     <label className="form-label">Sell</label>
                     <input
                       type="number"
-                      step="0.0001"
+                      step="0.01"
                       className="form-control"
                       name={`${type}_sell`}
                       value={form[`${type}_sell`] || ""}

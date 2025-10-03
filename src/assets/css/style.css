@@ -173,7 +173,7 @@ a{
 
 .rate-card-header {
     /* background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); */
-    background: #FF0066;
+    background: #40514e;
     color: white;
     padding: 0.75rem 1rem;
     display: flex;
@@ -515,6 +515,9 @@ a{
 .ref{
   background: orange;
 }
+.update{
+  background: white;
+}
 
 .tabs {
     display: flex;
@@ -545,3 +548,55 @@ a{
 }
 
 /* End Today Dashboard */
+
+/* Start Data Analysis */
+.data-key {
+    background: #444; /* light gray bg */
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Heading */
+.data-key h6 {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    /* color: #333; */
+}
+.data-key .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    animation: none;
+}
+
+/* .data-key .ref.dot {
+    background-color: #007bff;
+}
+
+.data-key .update.dot {
+    background-color: #28a745;
+} */
+.data-key ul {
+    margin-top: 1rem;
+    padding-left: 0;
+}
+
+.data-key ul li {
+    font-size: 0.85rem;
+    /* color: #555; */
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.data-key ul li::before {
+    content: "⮞";
+    position: absolute;
+    left: 0;
+    color: #999;
+}
+/* End Data Analysis */

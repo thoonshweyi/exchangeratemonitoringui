@@ -275,9 +275,9 @@ function EditExchangeDocu(){
                                                                 <div className="d-flex gap-4">
                                                                     <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.01" className="form-control rate-input" 
                                                                             // name={`exchangerates[${rate.id}][tt][buy]`} 
-                                                                            placeholder="0.0000"
+                                                                            placeholder="0.00"
                                                                             value={rate.tt_buy}
                                                                             onChange={e => changeHandler(e, index, "tt_buy")}
                                                                             /> */}
@@ -295,9 +295,9 @@ function EditExchangeDocu(){
                                                                     </div>
                                                                     <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        {/* <input type="number" step="0.01" className="form-control rate-input" 
                                                                             // name={`exchangerates[${rate.id}][tt][sell]`} 
-                                                                            placeholder="0.0000"
+                                                                            placeholder="0.00"
                                                                             value={rate.tt_sell}
                                                                             onChange={e => changeHandler(e, index, "tt_sell")}
                                                                             /> */}
@@ -369,8 +369,8 @@ function EditExchangeDocu(){
                                                                 <div className="d-flex gap-4">
                                                                     <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`cash_buy_${rate.id}`} placeholder="0.0000" 
+                                                                        {/* <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`cash_buy_${rate.id}`} placeholder="0.00" 
                                                                             value={rate.cash_buy}
                                                                             onChange={e => changeHandler(e, index, "cash_buy")}
                                                                             /> */}
@@ -386,8 +386,8 @@ function EditExchangeDocu(){
                                                                     </div>
                                                                     <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`cash_sell_${rate.id}`} placeholder="0.0000"
+                                                                        {/* <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`cash_sell_${rate.id}`} placeholder="0.00"
                                                                             value={rate.cash_sell}
                                                                             onChange={e => changeHandler(e, index, "cash_sell")}
                                                                             /> */}
@@ -457,8 +457,8 @@ function EditExchangeDocu(){
                                                                 <div className="d-flex gap-4">
                                                                     <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`earn_buy_${rate.id}`} placeholder="0.0000"
+                                                                        {/* <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`earn_buy_${rate.id}`} placeholder="0.00"
                                                                             value={rate.earn_buy}
                                                                             onChange={e => changeHandler(e, index, "earn_buy")}
                                                                             /> */}
@@ -474,8 +474,8 @@ function EditExchangeDocu(){
                                                                     </div>
                                                                     <div className="flex-fill mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        {/* <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`earn_sell_${rate.id}`} placeholder="0.0000" 
+                                                                        {/* <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`earn_sell_${rate.id}`} placeholder="0.00" 
                                                                             value={rate.earn_sell} 
                                                                             onChange={e => changeHandler(e, index, "earn_sell")}
                                                                             /> */}

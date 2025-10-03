@@ -6,6 +6,8 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
 import api from "./../../auth/api";
 
+import { ToastContainer, toast } from 'react-toastify';
+
 function AddExchangeDocu(){
     const navigate = useNavigate();
     const [ currencies ,setCurrencies] = useState(null); 
@@ -114,13 +116,25 @@ function AddExchangeDocu(){
 
             setformErrors({});
 		    setFormState({})
+
+            if(res.data.errors){
+                
+                Object.values(res.data.errors).forEach(errorArr => {
+                    errorArr.forEach(errorMsg => {
+                        toast.error(errorMsg);  
+                    });
+                });
+
+                setLoader(false);
+                return
+            }
             
             navigate(`/exchangedocus`);
-
             setLoader(false);
 
         }catch(err){
             console.log('Add Exchange Rate failed',err);
+            setLoader(false);
         }
 
         console.log("Form Submitted")
@@ -143,6 +157,19 @@ function AddExchangeDocu(){
             <div>
                 <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={"fs fa-arrow-left"} />Back</button>
             </div>
+            <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            // transition={Bounce}
+            />
             {/* Start Page Content Area */}
             <div className="container-fluid">
                 <div className="col-md-12">
@@ -191,9 +218,9 @@ function AddExchangeDocu(){
                                                                 <div className="d-flex gap-4">
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        <input type="number" step="0.01" className="form-control rate-input" 
                                                                             // name={`exchangerates[${currency.id}][tt][buy]`} 
-                                                                            placeholder="0.0000"
+                                                                            placeholder="0.00"
                                                                             value={formState[currency.id]?.tt?.buy || ""} 
                                                                             onChange={(e) =>
                                                                                 changeHandler(e, currency.id, "tt", "buy")
@@ -211,9 +238,9 @@ function AddExchangeDocu(){
                                                                     </div>
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
+                                                                        <input type="number" step="0.01" className="form-control rate-input" 
                                                                             // name={`exchangerates[${currency.id}][tt][sell]`} 
-                                                                            placeholder="0.0000"
+                                                                            placeholder="0.00"
                                                                             value={formState[currency.id]?.tt?.sell || ""} 
                                                                             onChange={(e) =>
                                                                                 changeHandler(e, currency.id, "tt", "sell")
@@ -237,8 +264,8 @@ function AddExchangeDocu(){
                                                                 <div className="d-flex gap-4">
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`cash_buy_${currency.id}`} placeholder="0.0000" 
+                                                                        <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`cash_buy_${currency.id}`} placeholder="0.00" 
                                                                             value={formState[currency.id]?.cash?.buy || ""} 
                                                                             onChange={(e) =>
                                                                                 changeHandler(e, currency.id, "cash", "buy")
@@ -254,8 +281,8 @@ function AddExchangeDocu(){
                                                                     </div>
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`cash_sell_${currency.id}`} placeholder="0.0000"
+                                                                        <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`cash_sell_${currency.id}`} placeholder="0.00"
                                                                             value={formState[currency.id]?.cash?.sell || ""} 
                                                                             onChange={(e) =>
                                                                                 changeHandler(e, currency.id, "cash", "sell")
@@ -278,8 +305,8 @@ function AddExchangeDocu(){
                                                                 <div className="d-flex gap-4">
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Buy</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`earn_buy_${currency.id}`} placeholder="0.0000"
+                                                                        <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`earn_buy_${currency.id}`} placeholder="0.00"
                                                                             value={formState[currency.id]?.earn?.buy || ""} 
                                                                             onChange={(e) =>
                                                                                 changeHandler(e, currency.id, "earn", "buy")
@@ -295,8 +322,8 @@ function AddExchangeDocu(){
                                                                     </div>
                                                                     <div className="mb-1">
                                                                         <label className="rate-label">Sell</label>
-                                                                        <input type="number" step="0.0001" className="form-control rate-input" 
-                                                                            name={`earn_sell_${currency.id}`} placeholder="0.0000" 
+                                                                        <input type="number" step="0.01" className="form-control rate-input" 
+                                                                            name={`earn_sell_${currency.id}`} placeholder="0.00" 
                                                                             value={formState[currency.id]?.earn?.sell || ""} 
                                                                             onChange={(e) =>
                                                                                 changeHandler(e, currency.id, "earn", "sell")

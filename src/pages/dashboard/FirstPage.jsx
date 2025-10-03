@@ -50,6 +50,8 @@ function FirstPage(){
     return (
         <>
             <TypeTab/>
+
+         
             
             <div className="col-md-6">
                 <h4>Currency Exchange</h4>
@@ -66,7 +68,7 @@ function FirstPage(){
                             </div>
                             <div className="col-4 text-center rates">
                                 <h6>{type.toUpperCase()} Buy (MMK)</h6>
-                                <span className="value">
+                                <span className={`${exchangerate.created_at == exchangerate.record_at ? 'text-warning' : ''} value`}>
                                 {Number(exchangerate[`${type}_buy`]).toLocaleString("en-US", {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2
@@ -103,7 +105,7 @@ function FirstPage(){
                             </div>
                             <div className="col-4 text-center rates">
                                 <h6>{type.toUpperCase()} Sell (MMK)</h6>
-                                <span className="value">
+                                <span className={`${exchangerate.created_at == exchangerate.record_at ? 'text-warning' : ''} value`}>
 
                                     {Number(exchangerate[`${type}_sell`]).toLocaleString("en-US", {
                                         minimumFractionDigits: 2,
@@ -145,16 +147,37 @@ function FirstPage(){
                                     <Link to={`/exchangerates/${exchangerate.id}`}>Details<FontAwesomeIcon icon="fa-solid fa-chevron-right ms-1"/></Link>
                                 </div>
                             </div>
-                            <div className="d-flex justify-content-center align-items-center mt-2">
+                            {/* <div className="d-flex justify-content-center align-items-center mt-2">
                                     <div className={`${exchangerate.created_at == exchangerate.record_at ? "ref" : "latest"} dot`}></div>
                                     <small className="ms-2">{ exchangerate.created_at == exchangerate.record_at ? 'Reference Price' : 'Latest Price' }</small>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
                     ))
                 }
 
+                <div className="data-key py-2 mb-2">
+                    <h6>Data Analysis</h6>
+
+                    <div className="d-flex justify-content-between">
+
+                        <div className="d-flex justify-content-start align-items-center">
+                            <div className={`ref dot me-`}></div>
+                            <small className="ms-2">ယခင်နေ့ဈေး</small>
+                        </div>
+                        <div className="d-flex justify-content-start align-items-center">
+                            <div className={`update dot`}></div>
+                            <small className="ms-2">နောက်ဆုံးရဈေး</small>
+                        </div>
+                    </div>
+
+                    <ul className="list-unstyled">
+                        <li>This Dashboard is only for internal use.</li>
+                        <li>All the exchange rate data come from in-house analysis team.</li>
+                    </ul>
+
+                </div>
 
             </div>
 
