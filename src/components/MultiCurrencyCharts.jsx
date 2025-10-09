@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { Chart } from "react-google-charts";
 
-  const options = (currency) => ({
+  const options = (currency,type) => ({
     title: `${currency} Exchange Rate`,
     legend: { position: "bottom" },
     hAxis: {
@@ -24,7 +24,8 @@ import { Chart } from "react-google-charts";
       }
     },
     vAxis: {
-      title: "Rate",
+      title: `${type} Rate`,
+      format: "###,###.00" 
     },
     
     chartArea: { 
@@ -80,7 +81,7 @@ export default function MultiCurrencyCharts() {
               width="100%"
               height="100%"
               data={[...data[`${type}`]]} 
-              options={options(currency)}
+              options={options(currency,type.toUpperCase())}
             />
           </div>
         </div>

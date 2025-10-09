@@ -51,7 +51,7 @@ function Detail(){
                 <button type="button" className="btn btn-outline-secondary mb-4" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={"fs fa-arrow-left"} />Back</button>
             </div>
             
-            <h1>{latestRate.currency.name}</h1>
+            <h1>{latestRate.currency.name} <FontAwesomeIcon icon={latestRate.currency.icon}/></h1>
             <TypeTab/>
             <div className="currencyex-card">
                 <div className="row align-items-center">
@@ -62,7 +62,7 @@ function Detail(){
                     </div>
                     <div className="col-4 text-center rates">
                         <h6>{type.toUpperCase()} Buy (MMK)</h6>
-                        <span className="value">
+                        <span className={`${latestRate.created_at == latestRate.record_at ? 'text-warning' : ''} value`}>
                         {Number(latestRate[`${type}_buy`]).toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
@@ -95,11 +95,12 @@ function Detail(){
                             )}
                         </p>
                         
+                        
 
                     </div>
                     <div className="col-4 text-center rates">
                         <h6>{type.toUpperCase()} Sell (MMK)</h6>
-                        <span className="value">
+                        <span className={`${latestRate.created_at == latestRate.record_at ? 'text-warning' : ''} value`}>
 
                             {Number(latestRate[`${type}_sell`]).toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
@@ -136,7 +137,7 @@ function Detail(){
                         
                     </div>
                     <div className="d-flex justify-content-center align-items-center mt-2">
-                            <div className={`${latestRate.created_at == latestRate.record_at ? "ref" : "latest"} dot`}></div>
+                            <div className={`${latestRate.created_at == latestRate.record_at ? "ref" : "update"} dot`}></div>
                             <small className="ms-2">{ latestRate.created_at == latestRate.record_at ? 'ယခင်နေ့ဈေး' : 'နောက်ဆုံးရဈေး' }</small>
                     </div>
                 </div>

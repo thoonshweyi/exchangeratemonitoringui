@@ -1,4 +1,6 @@
 import pro1globallogo from "./../assets/icons/pro1globallogo.png"
+import exchangelogo from "./../assets/favs/exchange.png"
+
 import { useEffect, useState } from "react";
 import {useParams,useNavigate} from "react-router"
 import APP_CONFIG from './../config/AppConfig.js';
@@ -69,6 +71,7 @@ function LoginPage(){
                 <div id="background" className="background"></div>
                 <div className="login-container text-black">
                     {/* <img src={pro1globallogo} alt="pro1globallogo" className="d-block mx-auto mb-4" style={{width: "180px"}} /> */}
+                    <img src={exchangelogo} alt="pro1globallogo" className="d-block mx-auto mb-4" style={{width: "100px"}} />
                     <h1>Exchange Rate Monitoring</h1>
                     {/* <p>Change the password to see the effect</p> */}
                 
@@ -76,8 +79,8 @@ function LoginPage(){
                     <form action="" method="" onSubmit={submitHandler}>
 
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="text" name="email" id="email" className="form-control" placeholder="Enter Email" onChange={changeHandler}/>
+                            <label htmlFor="email">Login</label>
+                            <input type="text" name="email" id="email" className="form-control" placeholder="Enter Account Number" onChange={changeHandler}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>

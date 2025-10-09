@@ -202,7 +202,9 @@ function AddExchangeDocu(){
                                                 <div key={currency.id} className="rate-card">
                                                     <div className="rate-card-header">
                                                         <div className="currency-info">
-                                                            <span className="currency-icon">$</span>
+                                                            <span className="currency-icon">
+                                                                <FontAwesomeIcon icon={currency.icon} />
+                                                            </span>
                                                             <div>
                                                                 <div className="currency-name">{currency.code} - {currency.name}</div>
                                                                 {/* <div className="rate-time">${rate.time}</div> */}
