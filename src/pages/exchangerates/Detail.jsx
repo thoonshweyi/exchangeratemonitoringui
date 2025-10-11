@@ -7,32 +7,73 @@ import api from "./../../auth/api";
 
 import TypeTab from "../../components/TypeTab.jsx";
 import { useSelector, useDispatch } from 'react-redux'
+import './../../assets/css/loader.css';
+
 function Detail(){
     const{id} = useParams();
     const navigate = useNavigate();
 
     const [loading,setLoading] = useState(true);
-    const [docus,setDocu] = useState({});
+    const [loader,setLoader] = useState(true);
+
+    const [docus, setDocu] = useState([]);
     const [latestRate, setLatestRage] = useState({});
     const type = useSelector((state) => state.type.value);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
+       fetchRateChangeHistories(page);
+    }, [page]);
 
-        api.get(`exchangerates/${id}/detail`)
-            .then(res => {
-            const docus = res.data;
+
+    useEffect(()=>{
+        const showloader = ()=>{
+            setPage((prev) => prev + 1);
+        }
+
+        const scrollHandler = (e)=>{
+            const {scrollTop,scrollHeight,clientHeight} = document.documentElement;
+            // console.log(scrollTop);
+            // console.log(scrollHeight);
+            // console.log(clientHeight);
+
+            if(scrollTop + clientHeight >= scrollHeight){
+                showloader();
+            }
+        }
+        window.addEventListener("scroll",scrollHandler);
+
+
+    },[]);
+
+    const fetchRateChangeHistories = async (page = 1) => {
+        setLoader(true);
+        await api.get(`exchangerates/${id}/detail`,{
+            params: {
+                page,
+            }
+        })
+        .then(res => {
+            const newData = res.data;
+            console.log(newData);
+
+            setDocu((prev) => [...prev, ...newData]);
+
             console.log(docus);
 
-            setDocu(docus);
-            setLatestRage(docus[0].exchangerates[0]);
+            if (page === 1){
+                setLatestRage(newData[0].exchangerates[0]);
+            }
             
             setLoading(false);
+            setLoader(false);
         })
         .catch(err => {
             console.error(`Error fetching exchange docus: ${err}`);
             setLoading(false);
+            setLoader(false);
         });
-    }, []);
+    }
 
       // Not yet finish fetching
      if(loading){
@@ -144,7 +185,7 @@ function Detail(){
             </div>
 
 
-            <div className="col-md-6">
+            <div className="col-md-6 loader-container">
                 <h5>Rate Change History</h5>
     
 
@@ -366,6 +407,12 @@ function Detail(){
                     ))
                 }
 
+
+                <div className={`loader ${loader ? 'show' : ''}`}>
+                    <div className="loader-item"></div>
+                    <div className="loader-item"></div>
+                    <div className="loader-item"></div>
+               </div>
             </div>
 
         </>

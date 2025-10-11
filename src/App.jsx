@@ -19,7 +19,7 @@ function MainLayout() {
     <div>
       <Navbar />
       {/* Start Content Area */}
-          <section>
+          <section id='content'>
                <div className="container-fluid">
                     <div className="row">
                          <div className="col-lg-10 col-md-9 ms-auto pt-md-5 mt-mt-3">
