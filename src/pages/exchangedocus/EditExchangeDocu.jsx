@@ -175,7 +175,22 @@ function EditExchangeDocu(){
 
     const handleSaveRate = async (rateId, updatedFields) => {
         try {
-            console.log(newChange);
+            
+            const oldRate = formState.find(r => r.id === rateId);
+            const hasChanges = Object.keys(updatedFields).some(
+                key => oldRate[key] !== updatedFields[key] // one of the field must be changed.
+            );
+            if (!hasChanges) {
+            Swal.fire({
+                title: 'No Changes Detected',
+                text: 'You have not modified any values.',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+            return; // Stop here — don’t call API
+            }
+
+
             const res = await api.put(`/exchangerates/${rateId}`, {...updatedFields,newChange,selectedType});
             // update local state with new data
             console.log(res.data);

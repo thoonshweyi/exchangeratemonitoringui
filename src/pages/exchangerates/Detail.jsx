@@ -207,7 +207,7 @@ function Detail(){
                                         <div className="row align-items-center">
                                             <div className="col-4 currencyex-info">
                                                 <h5>
-                                                    {exchangerate.updated_time} 
+                                                    {exchangerate[`${type}_updated_datetime`]} 
                                                     {/* <FontAwesomeIcon icon="fa-solid fa-euro-sign"/> */}
                                                 </h5>
                                             </div>
@@ -298,7 +298,7 @@ function Detail(){
                                         <div key={i} className="currencyex-card">
                                             <div className="row align-items-center">
                                             <div className="col-4 currencyex-info">
-                                                <h5>{changehistory.updated_time}</h5>
+                                                <h5>{changehistory[`updated_time`]}</h5>
                                             </div>
 
                                             <div className="col-4 text-center rates">
