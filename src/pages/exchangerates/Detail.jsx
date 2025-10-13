@@ -102,8 +102,8 @@ function Detail(){
                         </h5>
                     </div>
                     <div className="col-4 text-center rates">
-                        <h6>{type.toUpperCase()} Buy (MMK)</h6>
-                        <span className={`${latestRate.created_at == latestRate.record_at ? 'text-warning' : ''} value`}>
+                        <h6>{type.toUpperCase()} Buy <br/>(MMK)</h6>
+                        <span className={`${latestRate.created_at == latestRate[`${type}_updated_datetime`] ? 'text-warning' : ''} value`}>
                         {Number(latestRate[`${type}_buy`]).toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
@@ -140,8 +140,8 @@ function Detail(){
 
                     </div>
                     <div className="col-4 text-center rates">
-                        <h6>{type.toUpperCase()} Sell (MMK)</h6>
-                        <span className={`${latestRate.created_at == latestRate.record_at ? 'text-warning' : ''} value`}>
+                        <h6>{type.toUpperCase()} Sell <br/>(MMK)</h6>
+                        <span className={`${latestRate.created_at == latestRate[`${type}_updated_datetime`] ? 'text-warning' : ''} value`}>
 
                             {Number(latestRate[`${type}_sell`]).toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
@@ -178,8 +178,8 @@ function Detail(){
                         
                     </div>
                     <div className="d-flex justify-content-center align-items-center mt-2">
-                            <div className={`${latestRate.created_at == latestRate.record_at ? "ref" : "update"} dot`}></div>
-                            <small className="ms-2">{ latestRate.created_at == latestRate.record_at ? 'ယခင်နေ့ဈေး' : 'နောက်ဆုံးရဈေး' }</small>
+                            <div className={`${latestRate.created_at == latestRate[`${type}_updated_datetime`] ? "ref" : "update"} dot`}></div>
+                            <small className="ms-2">{ latestRate.created_at == latestRate[`${type}_updated_datetime`] ? 'ယခင်နေ့ဈေး' : 'နောက်ဆုံးရဈေး' }</small>
                     </div>
                 </div>
             </div>
@@ -207,12 +207,12 @@ function Detail(){
                                         <div className="row align-items-center">
                                             <div className="col-4 currencyex-info">
                                                 <h5>
-                                                    {exchangerate[`${type}_updated_datetime`]} 
+                                                    {exchangerate[`${type}_updated_time`]} 
                                                     {/* <FontAwesomeIcon icon="fa-solid fa-euro-sign"/> */}
                                                 </h5>
                                             </div>
                                             <div className="col-4 text-center rates">
-                                                <h6>{type.toUpperCase()} Buy (MMK)</h6>
+                                                <h6>{type.toUpperCase()} Buy <br/>(MMK)</h6>
                                                 <span className="value">
                                                 {Number(exchangerate[`${type}_buy`]).toLocaleString("en-US", {
                                                     minimumFractionDigits: 2,
@@ -249,9 +249,8 @@ function Detail(){
 
                                             </div>
                                             <div className="col-4 text-center rates">
-                                                <h6>{type.toUpperCase()} Sell (MMK)</h6>
+                                                <h6>{type.toUpperCase()} Sell <br/>(MMK)</h6>
                                                 <span className="value">
-
                                                     {Number(exchangerate[`${type}_sell`]).toLocaleString("en-US", {
                                                         minimumFractionDigits: 2,
                                                         maximumFractionDigits: 2
@@ -302,7 +301,7 @@ function Detail(){
                                             </div>
 
                                             <div className="col-4 text-center rates">
-                                                <h6>{type.toUpperCase()} Buy (MMK)</h6>
+                                                <h6>{type.toUpperCase()} Buy <br/>(MMK)</h6>
                                                 <span className="value">
                                                 {Number(changehistory.buy).toLocaleString("en-US", {
                                                     minimumFractionDigits: 2,
@@ -346,7 +345,7 @@ function Detail(){
                                             </div>
 
                                             <div className="col-4 text-center rates">
-                                                <h6>{type.toUpperCase()} Sell (MMK)</h6>
+                                                <h6>{type.toUpperCase()} Sell <br/>(MMK)</h6>
                                                 <span className="value">
                                                 {Number(changehistory.sell).toLocaleString("en-US", {
                                                     minimumFractionDigits: 2,
