@@ -68,7 +68,7 @@ function FirstPage(){
                             </div>
                             <div className="col-4 text-center rates">
                                 <h6>{type.toUpperCase()} Buy (MMK)</h6>
-                                <span className={`${exchangerate.created_at == exchangerate.record_at ? 'text-warning' : ''} value`}>
+                                <span className={`${exchangerate.created_at == exchangerate[`${type}_updated_datetime`] ? 'text-warning' : ''} value`}>
                                 {Number(exchangerate[`${type}_buy`]).toLocaleString("en-US", {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2
@@ -105,7 +105,7 @@ function FirstPage(){
                             </div>
                             <div className="col-4 text-center rates">
                                 <h6>{type.toUpperCase()} Sell (MMK)</h6>
-                                <span className={`${exchangerate.created_at == exchangerate.record_at ? 'text-warning' : ''} value`}>
+                                <span className={`${exchangerate.created_at == exchangerate[`${type}_updated_datetime`] ? 'text-warning' : ''} value`}>
 
                                     {Number(exchangerate[`${type}_sell`]).toLocaleString("en-US", {
                                         minimumFractionDigits: 2,
