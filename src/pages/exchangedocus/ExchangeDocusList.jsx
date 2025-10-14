@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 
 import api from "./../../auth/api";
+import ExcelImport from "./ExcelImport";
 
 function ExchangeDocusList(){
     const navigate = useNavigate();
@@ -105,13 +106,24 @@ function ExchangeDocusList(){
 
     return (
         <>
+            
             <h4>Daily Exchange Documents</h4>
             <div className="container-fluid">
                 <div className="col-md-12">
                     <div className="col-md-12 loader-container">
 
-                        <Link to="/exchangedocus/create" className="btn btn-primary mb-2 me-2">Create</Link>
-                        <button type="button" className="btn btn-outline-secondary mb-2" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={'fas fa-arrow-left'} />Back</button>
+                      
+                        <form action="" method="" >
+                            <div className="row mb-2 align-items-end">
+                                <div className="col">
+                                    <button type="button" className="btn btn-outline-secondary mb-2" onClick={()=>navigate(-1)}><FontAwesomeIcon icon={'fas fa-arrow-left'} />Back</button>
+                                    <Link to="/exchangedocus/create" className="btn btn-primary mb-2 mx-2">Create</Link>
+                                </div>
+
+                                <ExcelImport />
+                            </div>
+                        </form>
+       
                         <hr/>
                         
                  
