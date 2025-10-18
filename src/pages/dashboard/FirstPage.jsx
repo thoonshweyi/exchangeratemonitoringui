@@ -15,10 +15,15 @@ import MultiCurrencyCharts from "../../components/MultiCurrencyCharts.jsx";
 import WeeklyChart from "../../components/MultiCurrencyCharts.jsx";
 
 
+import { useAuth } from "./../../context/AuthContext";
 function FirstPage(){
     const [loading,setLoading] = useState(true);
     const [docu,setDocu] = useState({});
     const type = useSelector((state) => state.type.value);
+    const {user} = useAuth();
+    const [dataEntry,setDataEntry] = useState(false);
+    console.log(user);
+
     useEffect(() => {
 
         api.get(`exchangedocustodaydashboard`)
@@ -29,6 +34,7 @@ function FirstPage(){
             setDocu(docu);
           
             setLoading(false);
+         
         })
         .catch(err => {
             console.error(`Error fetching exchange docu: ${err}`);
@@ -36,6 +42,9 @@ function FirstPage(){
         });
     }, []);
 
+    useEffect(() => {
+        setDataEntry(user.roles.some(role => role.id == 1));
+    }, [user.roles]);
 
      // Not yet finish fetching
      if(loading){
@@ -54,7 +63,12 @@ function FirstPage(){
          
             
             <div className="col-md-6">
-                <h4>Currency Exchange</h4>
+                <div className="d-flex justify-content-between">
+                    <h4>Currency Exchange</h4>
+                    {dataEntry &&
+                        <Link to={`/exchangedocus/${docu.id}/edit`}> <FontAwesomeIcon icon={"fas fa-edit"} /></Link>
+                    }
+                </div>
 
                 <small className="d-block text-end">{docu.date}</small>
                 {
