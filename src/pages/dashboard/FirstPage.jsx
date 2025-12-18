@@ -13,6 +13,8 @@ import TypeTab from "../../components/TypeTab.jsx";
 import { useSelector, useDispatch } from 'react-redux'
 import MultiCurrencyCharts from "../../components/MultiCurrencyCharts.jsx";
 import WeeklyChart from "../../components/MultiCurrencyCharts.jsx";
+import ExchangeRateChart from "../../components/ExchangeRateChart.jsx";
+
 
 
 import { useAuth } from "./../../context/AuthContext";
@@ -198,7 +200,7 @@ function FirstPage(){
             </div>
 
             <div className="col-md-12">
-                <MultiCurrencyCharts/>
+                <ExchangeRateChart/>
             </div>
         </>
         
